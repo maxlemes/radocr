@@ -9,7 +9,7 @@ arquivos <- paste0('data-raw/',files[c(2,3)])
 # Testando os arquivos
 filesCheck(file1 = arquivos[1], file2 = arquivos[2])
 
-file <- arquivos[2]
+file <- arquivos[1]
 
 #----- RADOC ------------------------------------------------------------
 

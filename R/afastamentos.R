@@ -1,22 +1,19 @@
-docente <- function (tabela){
-  #' Extrai os dados do Docente
+afastamentos <- function (tabela){
+  #' Afastamentos
   #'
   #' @param tabela texto com os dados do RADOC do docente
   #'
-  #' @return um dataframe com os dados do docente
+  #' @return um dataframe com os dados do afastamento do docente
   #'
   #' @examples
   #' \dontrun{
-  #' docente(tabela)
+  #' afastamentos(tabela)
   #' }
 
   df <- tabela
+  ini <- xts::first(which(stringr::str_detect(df, "^Afastamentos")))
 
-  # Localizando os dados do docente na tabela
-  ini <- xts::first(which(stringr::str_detect(tabela, "^Nome")))
-  end <- xts::first(which(stringr::str_detect(tabela, "^Cargo")))
-
-  df <- df[ini:end]
+  df <- df[(ini):(ini + 3)]
 
   df <- stringr::str_replace_all(df, ":", "|")
   df <- stringr::str_replace_all(df,  "\\s{2,}", "|")
@@ -33,8 +30,6 @@ docente <- function (tabela){
   for(i in 1:ncol(df)){
     df[[i]] <- stringr::str_replace_all(df[[i]], "^\\s+|\\s+$", "")
   }
-
-
 
   # Quando há afastamento
   if (df[[1]][2] != "Nenhum registro."){
