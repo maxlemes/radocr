@@ -20,6 +20,7 @@ Uma mensagem com a avaliação feita
 }
 }
 \examples{
+\dontrun{
 filesCheck(file1, file2)
-
+}
 }

@@ -9,8 +9,11 @@ filesCheck <- function(file1, file2){
   #'
   #' @return Uma mensagem com a avaliação feita
   #'
-  #' @examples filesCheck(file1, file2)
-  #'
+  #' @examples
+  #'\dontrun{
+  #' filesCheck(file1, file2)
+  #' }
+
 
   # file1 <- arquivos[1]
   # file2 <- arquivos[2]
@@ -22,7 +25,7 @@ filesCheck <- function(file1, file2){
     tabela <- stringr::str_replace_all(tabela, "^\\s+|\\s+$", "")
 
     if (!grepl('^Sistema de Consulta das Atividades Docente', tabela[1])){
-      stop(paste('O arquivo', file, 'não é um RADOC do SICAD+'))
+      stop(paste('The file', file, 'is not a RADOC from SICAD+.'))
     }
   }
 
@@ -40,21 +43,21 @@ filesCheck <- function(file1, file2){
     '(^.*[A-Z]?[^\\s](?=\\s\\s))')
 
   if (aux1 != aux2){
-    stop('Os RADOCs não são do mesmo docente')
+    stop('The RADOCs has not the same teacher.')
   }
 
   # extraindo os anos dos Radocs
-  ind_ano <- tabela1[xts::first(which(stringr::str_detect(tabela1, "^Relatório do docente")))]
+  ind_ano <- tabela1[xts::first(which(stringr::str_detect(tabela1, "^Relat\\u00f3rio do docente")))]
   ano1 <- as.numeric(stringr::str_sub(
     stringr::str_extract(ind_ano, "(?<=\\()([^()]*?)(?=\\)[^()]*$)"),start = 5))
 
-  ind_ano <- tabela2[xts::first(which(stringr::str_detect(tabela2, "^Relatório do docente")))]
+  ind_ano <- tabela2[xts::first(which(stringr::str_detect(tabela2, "^Relat\\u00f3rio do docente")))]
   ano2 <- as.numeric(stringr::str_sub(
     stringr::str_extract(ind_ano, "(?<=\\()([^()]*?)(?=\\)[^()]*$)"),start = 5))
 
   if (ano1 == ano2){
-    stop('Os RADOCs são do mesmo ano')
+    stop('The RADOCs are the same year.')
   }
 
-  print('Os arquivos correspondem a 2 RADOCs válidos')
+  print('The files are valid.')
 }

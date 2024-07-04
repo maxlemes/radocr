@@ -5,10 +5,11 @@ mtibble <- function(df) {
   #' @param df Um dataframe do tipo tibble
   #'
   #' @return o modo de construção do tibble de entrada
-  #' @export
   #'
-  #' @examples df <- mtcars[1:3, 1:3]
-  #' mtibble(df)
+  #' @examples
+  #'\dontrun{
+  #' mtibble(iris)
+  #' }
 
   names <- colnames(df)
 

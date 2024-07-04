@@ -18,6 +18,7 @@ Função que transforma um tibble em um tibble construction, i.e.,
 a função retorna o modo de construção do tibble de entrada
 }
 \examples{
-df <- mtcars[1:3, 1:3]
-mtibble(df)
+\dontrun{
+mtibble(iris)
+}
 }

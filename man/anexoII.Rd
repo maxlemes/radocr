@@ -9,9 +9,9 @@
 
 A tibble: 232 × 3
 \describe{
-\item{COD}{Contém o código da Atividade}
-\item{Descrição}{Contém a descrição da atividade}
-\item{Pontos}{Contém a pontuação da atiidade}
+\item{COD}{Contém o código da atividade.}
+\item{Descrição}{Contém a descrição da atividade.}
+\item{Pontos}{Contém a pontuação da atividade.}
 }
 
 @source https://sistemas.ufg.br/consultas_publicas/resolucoes/arquivos/Resolucao_CONSUNI_2017_0018.pdf
@@ -21,7 +21,6 @@ A tibble: 232 × 3
 anexoII
 }
 \description{
-Contém a tabela do Anexo II com os itens e suas respectivas
-pontuações
+Contém a Tabela do Anexo II com suas respectivas pontuações
 }
 \keyword{datasets}

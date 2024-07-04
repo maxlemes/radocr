@@ -5,15 +5,13 @@
 \alias{topicos}
 \title{Tópicos}
 \format{
-\subsection{'topicos'}{
-
-chr \link{1:28}
+\subsection{topicos}{
 
 \describe{
-\item{"I - ATIVIDADES DE ENSINO"}
-\item{"I-1 Ensino Básico"}
-\item{"I-1 Graduação"}
-\item{"..."}
+\item{"I - ATIVIDADES DE ENSINO"}{}
+\item{"I-1 Ensino Básico"}{}
+\item{"I-1 Graduação"}{}
+\item{"..."}{}
 }
 }
 }
