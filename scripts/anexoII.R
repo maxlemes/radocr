@@ -14,7 +14,7 @@ tabela <- anexoII %>%
 # I - ATIVIDADES DE ENSINO -----------------------------------------------------
 df <- tabela
 
-ini <- df %>% str_detect("^       I -3 Projetos de Ensino*") %>% which
+ini <- df %>% str_detect("^    I ± ATIVIDADES DE ENSINO*") %>% which
 end <- df %>% str_detect("^    II - PRODUÇÃO INTELECTUAL") %>% which
 
 df <- df[ini:end]
@@ -35,8 +35,22 @@ df <- df %>%
 
 df[[3]] <- str_extract_all(df[[3]], '.*[^*]')
 
-# Itens I-3-1 e I-3-2 -----------------------------------------------
+# Itens I-1-1 a I-2-2 -----------------------------------------------
 da <- tibble(
+  'COD' = c('I-1-1', 'I-1-2', 'I-2-1', 'I-2-2'),
+  'Descrição' = c(
+    'Disciplina de Ensino Básico ou Graduação - presencial',
+    'Disciplina de Ensino Básico ou Graduação - a distância',
+    'Disciplina de Pós-Graduação - presencial',
+    'Disciplina de Pós-Graduação - a distância'
+  ),
+  'Pontos' = 10
+)
+
+df <- df[-c(1:20),]
+
+# Itens I-3-1 e I-3-2 -----------------------------------------------
+aux <- tibble(
   'COD' = c('I-3-1', 'I-3-2'),
   'Descrição' = c(
     'Coordenador de projeto de ensino com financiamento',
@@ -44,6 +58,8 @@ da <- tibble(
   ),
   'Pontos' = as.numeric(df[[3]][c(3,5)])
 )
+
+da <- rbind(da, aux)
 
 # II - PRODUÇÃO INTELECTUAL ----------------------------------------------------
 # II -1 Produção Científica ----------------------------------------------------
@@ -199,7 +215,7 @@ df <- df %>%
   str_replace_all(.,  "^\\|", "")
 
 df <-df %>%
-  as.tibble() %>%
+  as_tibble() %>%
   separate_wider_delim(value,  '|',
                        names = letters[1:5],
                        cols_remove = TRUE,
@@ -754,7 +770,7 @@ df <- df[-c(1:17),]
 
 # Itens IV-2-6.1 a IV-2-6.6 -------------------------------------------
 aux <- tibble(
-  'COD' = c('IV-2-6.1', 'IV-2-6.2', 'IV-2-6.3', 'IV-2-6.4','IV-1-6.5', 'IV-1-6.6'),
+  'COD' = c('IV-2-6.1', 'IV-2-6.2', 'IV-2-6.3', 'IV-2-6.4','IV-2-6.5', 'IV-2-6.6'),
   'Descrição' = c(
     'Atividades designadas por portaria - Com carga horária menor ou igual a 30 horas',
     'Atividades designadas por portaria - Com carga horária maior do que 30 horas e menor ou igual a 60 horas',
@@ -1057,4 +1073,6 @@ aux <- tibble(
 
 da <- rbind(da, aux)
 
-save(da, file = 'data/anexoII.RData')
+anexoII <- da
+
+save(anexoII, file = 'data/anexoII.rda')

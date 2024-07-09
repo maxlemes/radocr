@@ -1,7 +1,7 @@
-docente <- function (tabela){
+docente <- function (file){
   #' Extrai os dados do Docente
   #'
-  #' @param tabela texto com os dados do RADOC do docente
+  #' @param file arquivo em pdf do RADOC do docente
   #'
   #' @return um dataframe com os dados do docente
   #'
@@ -10,13 +10,15 @@ docente <- function (tabela){
   #' docente(tabela)
   #' }
 
-  df <- tabela
+  # transformando o arquivo em tabela e depois em texto
+  tabela <- readr::read_lines(pdftools::pdf_text(file))
+  tabela <- stringr::str_replace_all(tabela, "^\\s+|\\s+$", "")
 
   # Localizando os dados do docente na tabela
   ini <- xts::first(which(stringr::str_detect(tabela, "^Nome")))
   end <- xts::first(which(stringr::str_detect(tabela, "^Cargo")))
 
-  df <- df[ini:end]
+  df <- tabela[ini:end]
 
   df <- tabtibble(df)
 

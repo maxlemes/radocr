@@ -1,7 +1,14 @@
-prod <- function(file) {
-
-  file <- arquivos[2]
-
+coleta <- function (file){
+  #' Extrai os dados do Docente
+  #'
+  #' @param file arquivo em pdf do RADOC do docente
+  #'
+  #' @return um dataframe com os dados coletados no arquivo
+  #'
+  #' @examples
+  #' \dontrun{
+  #' coleta(radoc.pdf)
+  #' }
 
   # transformando a tabela em texto
   tabela <- readr::read_lines(pdftools::pdf_text(file))
@@ -13,22 +20,22 @@ prod <- function(file) {
   ano <- as.numeric(stringr::str_sub(
     stringr::str_extract(ano, "(?<=\\()([^()]*?)(?=\\)[^()]*$)"),start = 5))
 
-  topico1 <- '^I '
-  topico2 <- '^IV '
-
-  ini <- xts::first(which(stringr::str_detect(tabela, topico1)))
-  end <- xts::first(which(stringr::str_detect(tabela, topico2)))
+  # coleta a partir do item I - ATIVIDADES DE ENSINO ---------------------------
+  ini <- xts::first(which(stringr::str_detect(tabela, '^I ')))
 
   df <- tabela[ini:length(tabela)]
 
+  # transformando em um data frame
   df <- tabtibble(df)
 
+  # filtrando os itens pontuados
   itens <- which(grepl("^Item", df[[1]]))
 
   df <- df[itens,1:4]
 
   df[[2]] <- stringr::str_replace_all(df[[2]], "\\s", "")
 
+  # Arrumando o dataframe
   if (nrow(df) != 0) {
     # converte a ultima coluna em números e eliminas as linhas sem pontos
     df[[ncol(df)]] <- suppressWarnings(as.numeric(df[[ncol(df)]]))
@@ -49,15 +56,22 @@ prod <- function(file) {
     aux <- df
   }
 
+  # coletando o tempo das atividades -------------------------------
   df <- df[(df$a %in% lista0),]
 
   lista <- df[[1]]
 
-  tempo <- NULL
-
   for (i in 1:length(lista)){
     ini <- which(
       stringr::str_detect(tabela,paste('^Item da Resolução:',lista[i])))
+
+    if(length(ini)==0){
+      ini <- which(
+        stringr::str_detect(tabela,paste('^Item da Resolução:',
+                                         gsub("-", " - ", lista[i]))))
+    }
+
+    tempo <- NULL
 
     for (j in 1:length(ini)){
       end <- ini[j] + 20
@@ -79,7 +93,7 @@ prod <- function(file) {
       if (is.na(termino)){
         termino <- reveillon
       } else {
-        ifelse(is.na(termino), reveillon, min(reveillon, termino))
+        termino <- min(reveillon, termino)
       }
 
       tempo[j] <- 1 + as.numeric(format(termino, '%m')) -
@@ -87,7 +101,7 @@ prod <- function(file) {
 
     }
 
-    aux[aux$a == lista[i],'c'] <- sum(tempo)
+    aux[aux$a == lista[i],paste0('c.',ano)] <- sum(tempo)
 
   }
 

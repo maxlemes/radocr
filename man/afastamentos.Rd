@@ -4,10 +4,10 @@
 \alias{afastamentos}
 \title{Afastamentos}
 \usage{
-afastamentos(tabela)
+afastamentos(file)
 }
 \arguments{
-\item{tabela}{texto com os dados do RADOC do docente}
+\item{file}{arquivo em pdf do RADOC do docente}
 }
 \value{
 um dataframe com os dados do afastamento do docente
