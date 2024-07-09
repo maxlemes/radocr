@@ -41,3 +41,19 @@
 #' }
 #'
 'topicos'
+
+#' Lista0
+#'
+#' Contém a lista de tópicos pontuados considerando o tempo no cargo
+#'
+#' @format ## lista0
+#'
+#' \describe{
+#' \item{"II-1-20"}{}
+#' \item{"II-3-9"}{}
+#' \item{"II-3-19.2"}{}
+#' \item{"..."}{}
+#' }
+#'
+'lista0'
+

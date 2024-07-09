@@ -4,12 +4,13 @@ rm(list = ls())
 files <- list.files(path = 'data-raw/',
                     pattern = "pdf$")
 
-arquivos <- paste0('data-raw/',files[c(2,3)])
+arquivos <- paste0('data-raw/',files[-1])
 
 # Testando os arquivos
-filesCheck(file1 = arquivos[1], file2 = arquivos[2])
+filesCheck(arquivos)
 
 file <- arquivos[1]
+prod(file)
 
 #----- RADOC ------------------------------------------------------------
 
@@ -27,28 +28,5 @@ ano <- as.numeric(stringr::str_sub(
 #----- Afastamentos ------------------------------------------------------------
 afastamentos(tabela)
 
-df <- tabela
-
-afastamentos(tabela)
-
-ini <- xts::first(which(stringr::str_detect(df, "^Afastamentos")))
-
-df <- df[(ini):(ini + 3)]
-
-df <- stringr::str_replace_all(df, ":", "|")
-df <- stringr::str_replace_all(df,  "\\s{2,}", "|")
-df <- tibble::as_tibble(df)
-
-df <- tidyr::separate_wider_delim(data = df,
-                                  cols = .data$value,
-                                  delim = '|',
-                                  names_sep = '|',
-                                  cols_remove = TRUE,
-                                  too_few = "align_start",
-                                  # too_many = "merge",
-)
-
-for(i in 1:4){
-  df[[i]] <- stringr::str_replace_all(df[[i]], "^\\s+|\\s+$", "")
-}
+docente(tabela)
 

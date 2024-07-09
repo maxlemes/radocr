@@ -18,47 +18,23 @@ docente <- function (tabela){
 
   df <- df[ini:end]
 
-  df <- stringr::str_replace_all(df, ":", "|")
-  df <- stringr::str_replace_all(df,  "\\s{2,}", "|")
-  df <- tibble::as_tibble(df)
+  df <- tabtibble(df)
 
-  df <- tidyr::separate_wider_delim(data = df,
-                                    cols = .data$value,
-                                    delim = '|',
-                                    names_sep = '|',
-                                    cols_remove = TRUE,
-                                    too_few = "align_start"
-                                    )
-
-  for(i in 1:ncol(df)){
-    df[[i]] <- stringr::str_replace_all(df[[i]], "^\\s+|\\s+$", "")
+  # as vezes o nome da lotação passa para outra linha
+  if (is.na(df[[2]][8])){
+    df[[4]][7] <- paste(df[[4]][7],df[[1]][8])
+    df[[4]][9] <-  df[[4]][7]
+    df <- df[-c(3,8),]
   }
 
-
-
-  # Quando há afastamento
-  if (df[[1]][2] != "Nenhum registro."){
-    inicio <- as.Date(df[[2]][3], format = '%d/%m/%Y')
-    termino  <- as.Date(df[[2]][4], format = '%d/%m/%Y')
-    reveillon <- as.Date(paste0('31/12/',ano), format = '%d/%m/%Y')
-
-
-    df[1,2] <- df[2,2]
-    df[2,1:2] <- df[2,3:4]
-    df[3,1] <- 'Per\u00edodo'
-    df[3,2] <- paste(df[3,2], 'a', df[4,2])
-    df[4,1] <- 'Dias no ano'
-    df[4,2] <- as.character(min(as.numeric(termino + 1 - inicio),
-                                as.numeric(reveillon - inicio)))
-    df <- df[,1:2]
-
-  } else {
-    # quando não há afastamento
-   df[1,2] <- df[2,1]
-   df <- df[1,1:2]
-  }
-
-  colnames(df) <- letters[1:ncol(df)]
+  # ajustes finais
+  df[[1]][1] <- 'Docente'
+  df[[1]][3] <- 'Matr\u00edcula SIAPE'
+  df[[3]][6] <- 'Unidade'
+  df[[4]][3] <- paste(df[[4]][3], '- N\u00edvel', df[[4]][4])
+  df[[3]][4] <- df[[1]][7]
+  df[[4]][4] <- df[[2]][7]
+  df <- df[-7,]
 
   return(df)
 }

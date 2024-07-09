@@ -4,10 +4,10 @@
 \alias{afastamentos}
 \title{Afastamentos}
 \usage{
-afastamentos(file)
+afastamentos(tabela)
 }
 \arguments{
-\item{file}{o RADOC do docente}
+\item{tabela}{texto com os dados do RADOC do docente}
 }
 \value{
 um dataframe com os dados do afastamento do docente
@@ -17,6 +17,6 @@ Afastamentos
 }
 \examples{
 \dontrun{
-afastamentos(file = 'radoc.pdf')
+afastamentos(tabela)
 }
 }
