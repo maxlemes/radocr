@@ -17,6 +17,6 @@ Extrai os dados do Docente
 }
 \examples{
 \dontrun{
-coleta(radoc.pdf)
+coleta('data/radoc1.pdf')
 }
 }

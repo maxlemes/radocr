@@ -9,7 +9,7 @@
 
 A tibble: 232 × 3
 \describe{
-\item{COD}{Contém o código da atividade.}
+\item{Item}{Contém o código da atividade.}
 \item{Descrição}{Contém a descrição da atividade.}
 \item{Pontos}{Contém a pontuação da atividade.}
 }

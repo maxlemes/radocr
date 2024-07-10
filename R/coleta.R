@@ -6,13 +6,16 @@ coleta <- function (file){
   #' @return um dataframe com os dados coletados no arquivo
   #'
   #' @examples
-  #' \dontrun{
-  #' coleta(radoc.pdf)
-  #' }
+  #'\dontrun{
+  #' coleta('data/radoc1.pdf')
+  #'}
 
   # transformando a tabela em texto
   tabela <- readr::read_lines(pdftools::pdf_text(file))
   tabela <- stringr::str_replace_all(tabela, "^\\s+|\\s+$", "")
+
+  # corrigindo erros observados ----------------------------------------------
+  tabela <- gsub('IV-2.6.3', 'IV-2-6.3', tabela)
 
   # extraindo o ano do Radoc
   ano <- tabela[xts::first(which(
@@ -57,17 +60,17 @@ coleta <- function (file){
   }
 
   # coletando o tempo das atividades -------------------------------
-  df <- df[(df$a %in% lista0),]
+  df <- df[(df$a %in% listas[['lista_tempo']]),]
 
   lista <- df[[1]]
 
   for (i in 1:length(lista)){
     ini <- which(
-      stringr::str_detect(tabela,paste('^Item da Resolução:',lista[i])))
+      stringr::str_detect(tabela,paste('^Item da Resolu\u00e7\u00e3o:',lista[i])))
 
     if(length(ini)==0){
       ini <- which(
-        stringr::str_detect(tabela,paste('^Item da Resolução:',
+        stringr::str_detect(tabela,paste('^Item da Resolu\u00e7\u00e3o:',
                                          gsub("-", " - ", lista[i]))))
     }
 
@@ -79,7 +82,7 @@ coleta <- function (file){
 
       df <- tabtibble(df)
 
-      item <- which(grepl("(^Data)|(^Início)", df[[1]]))
+      item <- which(grepl("(^Data)|(^In\u00edcio)", df[[1]]))
 
       df <- df[item,1:4]
 
@@ -101,11 +104,13 @@ coleta <- function (file){
 
     }
 
-    aux[aux$a == lista[i],paste0('c.',ano)] <- sum(tempo)
+    aux[aux$a == lista[i],paste0('t.',ano)] <- sum(tempo)
 
   }
 
   df <- aux
+
+  colnames(df)[1:3] <- c('Item', 'Qtde', 'SICAD')
 
   return(df)
 }

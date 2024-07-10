@@ -1,4 +1,12 @@
 
+library(magrittr)
+library(pdftools)
+library(stringr)
+library(tidyr)
+library(tibble)
+library(xts)
+
+
 cad <- paste0('data-raw/','Resolucao_tab.pdf')
 
 df <- pdf_text(cad) %>% readr::read_lines()
@@ -10,7 +18,7 @@ df <- df %>%
   str_replace_all(.,  "^\\|", "")
 
 df <-df %>%
-  as.tibble() %>%
+  as_tibble() %>%
   separate_wider_delim(value,  '|',
                        names = letters[1:4],
                        too_few = "align_start",
@@ -60,6 +68,5 @@ df[[2]][III] <- 'ATIVIDADES DE PESQUISA E DE EXTENSÃO'
 df[[2]][IV] <- 'ATIVIDADES ADMINISTRATIVAS E DE REPRESENTAÇÃO'
 df[[2]][V] <- 'OUTRAS ATIVIDADES'
 
-cad <- df
-save(cad, file = 'data/cadOrig.RData')
-save(cad, file = 'data/cad.RData')
+cad_orig <- df
+save(cad_orig, file = 'data/cad_orig.rda')
