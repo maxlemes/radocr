@@ -18,10 +18,10 @@ arquivos <- paste0('data-raw/',files[-1])
 # Testando os arquivos
 filesCheck(arquivos)
 
-file <- arquivos[1]
+file <- arquivos[4]
 
 #----- Afastamentos ------------------------------------------------------------
-afastamentos(file)
+# afastamentos(file)
 
 docente(file)
 

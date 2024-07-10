@@ -26,8 +26,10 @@ docente <- function (file){
   if (is.na(df[[2]][8])){
     df[[4]][7] <- paste(df[[4]][7],df[[1]][8])
     df[[4]][9] <-  df[[4]][7]
-    df <- df[-c(3,8),]
+    df <- df[-8,]
   }
+
+  df <- df[-3,]
 
   # ajustes finais
   df[[1]][1] <- 'Docente'
