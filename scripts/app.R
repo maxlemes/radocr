@@ -1,5 +1,6 @@
 
 rm(list = ls())
+library(devtools)
 
 #
 #   encontra o unicode do caracter
@@ -13,21 +14,22 @@ rm(list = ls())
 files <- list.files(path = 'data-raw/',
                     pattern = "pdf$")
 
-arquivos <- paste0('data-raw/',files[-1])
+arquivos <- paste0('data-raw/',files[-c(1,10)])
 
 # Testando os arquivos
-filesCheck(arquivos)
+# filesCheck(arquivos)
 
-file <- arquivos[4]
+file <- arquivos[1]
 
 #----- Afastamentos ------------------------------------------------------------
 # afastamentos(file)
-
-docente(file)
+#
+# docente(file)
 
 df <- coleta(file)
+coleta(file)
+pontua(df)
 
-# df <- pontua(df)
 
 # print(coleta(file), n = 30)
 

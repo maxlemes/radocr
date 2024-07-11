@@ -64,53 +64,57 @@ coleta <- function (file){
 
   lista <- df[[1]]
 
-  for (i in 1:length(lista)){
-    ini <- which(
-      stringr::str_detect(tabela,paste('^Item da Resolu\u00e7\u00e3o:',lista[i])))
-
-    if(length(ini)==0){
+  if (length(lista) > 0) {
+    for (i in 1:length(lista)) {
       ini <- which(
-        stringr::str_detect(tabela,paste('^Item da Resolu\u00e7\u00e3o:',
-                                         gsub("-", " - ", lista[i]))))
-    }
+        stringr::str_detect(tabela,paste('^Item da Resolu\u00e7\u00e3o:',lista[i])))
 
-    tempo <- NULL
-
-    for (j in 1:length(ini)){
-      end <- ini[j] + 20
-      df <- tabela[ini[j]:end]
-
-      df <- tabtibble(df)
-
-      item <- which(grepl("(^Data)|(^In\u00edcio)", df[[1]]))
-
-      df <- df[item,1:4]
-
-      newyear <- as.Date(paste0('01/01/',ano), format = '%d/%m/%Y')
-      inicio <- as.Date(df[[2]][1], format = '%d/%m/%Y')
-      termino  <- as.Date(df[[4]][1], format = '%d/%m/%Y')
-      reveillon <- as.Date(paste0('31/12/',ano), format = '%d/%m/%Y')
-
-      inicio  <- max(newyear, inicio)
-
-      if (is.na(termino)){
-        termino <- reveillon
-      } else {
-        termino <- min(reveillon, termino)
+      if (length(ini) == 0) {
+        ini <- which(
+          stringr::str_detect(tabela,paste('^Item da Resolu\u00e7\u00e3o:',
+                                           gsub("-", " - ", lista[i]))))
       }
 
-      tempo[j] <- 1 + as.numeric(format(termino, '%m')) -
-        as.numeric(format(inicio, '%m'))
+      tempo <- NULL
+
+      for (j in 1:length(ini)) {
+        end <- ini[j] + 20
+        df <- tabela[ini[j]:end]
+
+        df <- tabtibble(df)
+
+        item <- which(grepl("(^Data)|(^In\u00edcio)", df[[1]]))
+
+        df <- df[item,1:4]
+
+        newyear <- as.Date(paste0('01/01/',ano), format = '%d/%m/%Y')
+        inicio <- as.Date(df[[2]][1], format = '%d/%m/%Y')
+        termino  <- as.Date(df[[4]][1], format = '%d/%m/%Y')
+        reveillon <- as.Date(paste0('31/12/',ano), format = '%d/%m/%Y')
+
+        inicio  <- max(newyear, inicio)
+
+        if (is.na(termino)){
+          termino <- reveillon
+        } else {
+          termino <- min(reveillon, termino)
+        }
+
+        tempo[j] <- 1 + as.numeric(format(termino, '%m')) -
+          as.numeric(format(inicio, '%m'))
+
+      }
+
+      aux[aux$a == lista[i],'Tempo'] <- sum(tempo)
 
     }
-
-    aux[aux$a == lista[i],paste0('t.',ano)] <- sum(tempo)
-
+  } else {
+    aux[,'Tempo'] <- as.numeric(NA)
   }
 
   df <- aux
 
-  colnames(df)[1:3] <- c('Item', 'Qtde', 'SICAD')
+  colnames(df)[1:3] <- c('Item', 'Qtde', paste0('S.',ano))
 
   return(df)
 }

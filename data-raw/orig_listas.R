@@ -93,6 +93,7 @@ listas <- append(listas, list(lista40 = lista))
 # lista com os itens com pontuação atribuida a cada ano de atividade
 lista <- c(
   'II-1-20', 'II-3-9', 'II-3-19.2', 'II-3-21.1', 'II-3-22',
+  'III-1-1', 'III-1-2', 'III-1-3',
   'III-2-1', 'III-2-2', 'III-2-3', 'III-2-4', 'III-2-5',
   'IV-2-1', 'IV-2-2', 'IV-2-4', 'IV-2-5', 'IV-2-5.1', 'IV-2-6.1', 'IV-2-6.2',
   'IV-2-6.3', 'IV-2-6.4', 'IV-2-6.5', 'IV-2-6.6',

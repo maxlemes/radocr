@@ -15,9 +15,11 @@ pontua <- function(df) {
   df <- suppressMessages(
     dplyr::left_join(df, anexoII, by = "Item")
     )
+  # ajustes nos dados da descrição
+  df[[5]] <- stringr::str_replace_all(df[[5]], "^\\s+|\\s+$", "")
 
-  ano <- gsub('t.', '', colnames(df)[4])
-  colnames(df)[4] <- 'Tempo'
+  ano <- gsub('S.', '', colnames(df)[3])
+  colnames(df)[3] <- 'SICAD'
 
   # ajustando os itens limitados a 1 por ano
   df[(df[['Item']] %in% listas[['lista1']]), 'Qtde'] <- 1
@@ -56,6 +58,7 @@ pontua <- function(df) {
     }
   }
 
+  df[,ano] <- round(df[,ano],1)
   df <- df[,c(1,5,2,7)]
 
   return(df)
