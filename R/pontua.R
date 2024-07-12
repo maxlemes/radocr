@@ -1,7 +1,7 @@
-pontua <- function(df) {
+pontua <- function(file) {
   #' Pontua os dados do RADOC seguindo o Anexo II da Resolução Consuni 18/2017
   #'
-  #' @param df data frame com os dados do RADOC
+  #' @param file arquivo em pdf RADOC gerado pelo SICAD+
   #'
   #' @return um dataframe com os dados e suas respectivas pontuações
   #'
@@ -11,6 +11,8 @@ pontua <- function(df) {
   #' }
 
   # aux <- df
+
+  df <- coleta(file)
 
   df <- suppressMessages(
     dplyr::left_join(df, anexoII, by = "Item")

@@ -104,8 +104,8 @@ afastamentos <- function(file) {
 
     # organizando a saida
     df <- df[1:3,1:2]
-    df[2,1] <- paste('Dias em', ano)
-    df[3,1] <- paste('Meses em', ano)
+    df[2,1] <- 'Dias afastado'
+    df[3,1] <- 'Meses afastado'
     df[,2]  <- as.numeric(NA)
     df[1,2] <- n
     df[2,2] <- total_dias
@@ -113,10 +113,12 @@ afastamentos <- function(file) {
   } else  {
     df <- tibble::tibble(
       'a' = c('Afastamentos',
-              paste('Dias em', ano),
-              paste('Meses em', ano)),
+              'Dias afastado',
+              'Meses afastado'),
       'b' = c(0,0,0))
   }
+
+  colnames(df)[2] <- ano
 
   return(df)
 }

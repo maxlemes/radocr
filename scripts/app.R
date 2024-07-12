@@ -19,19 +19,25 @@ arquivos <- paste0('data-raw/',files[-c(1,10)])
 # Testando os arquivos
 # filesCheck(arquivos)
 
-file <- arquivos[1]
+file1 <- arquivos[1]
+file2 <- arquivos[2]
 
+tabela_cad(file1,file2)
+
+
+file3 <- NA
 #----- Afastamentos ------------------------------------------------------------
-# afastamentos(file)
+afastamentos(file1)
 #
 # docente(file)
 
-df <- coleta(file)
-coleta(file)
-pontua(df)
+
+pontua(file1)
+
+tabela_cad(file2,file1)
 
 
-# print(coleta(file), n = 30)
+o# print(coleta(file), n = 30)
 
 print(pontua(df), n = 30)
 

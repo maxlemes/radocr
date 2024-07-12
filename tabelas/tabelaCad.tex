@@ -1,0 +1,35 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{booktabs}
+\usepackage{geometry}
+
+\usepackage[x11names,dvipsnames,table]{xcolor} %for use in color links
+\usepackage{graphicx}
+
+% definindo as margens do documento
+\geometry{a4paper,text={17.5cm,27cm},centering}
+
+% Definindo as cores das linhas da Tabela
+\definecolor{lightgray}{gray}{0.9}
+\rowcolors{1}{white}{lightgray}
+% \rowcolors{1}{lightgray}{white}
+
+
+\begin{document}
+\input{headerImeUfg}
+\pagenumbering{gobble}
+\rowcolors{1}{lightgray}{white}
+
+\vspace{1cm}
+
+\begin{center}
+\large \textbf{Dados do Docente}\\
+\end{center}
+\input{docente}
+
+
+\begin{center}
+\large \textbf{Tabela de Avaliação da CAD}\\
+\end{center}
+\noindent\input{notas_cad}
+
+\end{document}

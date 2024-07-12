@@ -1,4 +1,4 @@
-filesCheck <- function(files){
+filesCheck <- function(file1, file2){
   #' Função que faz 3 testes nos arquivos
   #'
   #' 1) Testa se o arquivo é um RADOC do SICAD+
@@ -14,8 +14,8 @@ filesCheck <- function(files){
   #' filesCheck(file1, file2)
   #' }
 
+  files <- c(file1, file2)
 
-  # files <- arquivos[c(1,2)]
   aux <- NULL
   ano <- NULL
 

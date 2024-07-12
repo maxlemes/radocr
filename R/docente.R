@@ -31,7 +31,7 @@ docente <- function (file){
 
   df <- df[-3,]
 
-  # ajustes finais
+  # ajustes 
   df[[1]][1] <- 'Docente'
   df[[1]][3] <- 'Matr\u00edcula SIAPE'
   df[[3]][6] <- 'Unidade'
@@ -40,5 +40,19 @@ docente <- function (file){
   df[[4]][4] <- df[[2]][7]
   df <- df[-7,]
 
+  # Filtrando só o que interessa
+  df[1, 3:4] <- df[2, 3:4]
+  df[4, 3:4] <- df[5, 3:4]
+  df <- df[-c(2,5),]
+
+  # empilhando em 2 colunas
+  aux <- df[,3:4]
+  colnames(aux) <- colnames(df[,1:2])
+  df <- rbind(df[,1:2], aux)
+  
+  df <- df[c(1,5,2,3,7,4,6,8),]
+  df[5,2] <- to_title_case_pt_br(df[5,2])
+  df[8,2] <- to_title_case_pt_br(df[8,2])
+  
   return(df)
 }
