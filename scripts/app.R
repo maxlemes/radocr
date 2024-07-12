@@ -44,3 +44,5 @@ print(pontua(df), n = 30)
 df <- coleta(file)
 
 pontua(df)
+
+https://guslipkin.medium.com/making-pretty-excel-files-in-r-46a15c7a2ee8

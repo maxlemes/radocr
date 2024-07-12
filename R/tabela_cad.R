@@ -13,6 +13,8 @@ tabela_cad <- function (file1, file2, n=40){
   
   filesCheck(file1,file2)
 
+
+
   # capturando a tabela vazia
   cad <- cad_orig
 
@@ -56,7 +58,6 @@ tabela_cad <- function (file1, file2, n=40){
 
   # Coletando os dados do docente
   doc <- docente(file1)
-
 
   # Verificando os afastamentos  
   afast <- cbind(afastamentos(file1), afastamentos(file2)[,2])
@@ -123,7 +124,6 @@ tabela_cad <- function (file1, file2, n=40){
         sanitize.text.function=function(x){x},
         sanitize.rownames.function=gray,
         sanitize.colnames.function=bold,
-        type = "latex",
         file = "tabelas/notas_cad.tex")
   
   

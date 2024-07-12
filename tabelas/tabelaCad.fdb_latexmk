@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1720793040 "/home/max/projetos/rProjects/radocr/tabelas/tabelaCad.tex" "tabelaCad.pdf" "tabelaCad" 1720793040 0
+["pdflatex"] 1720793743 "/home/max/projetos/rProjects/radocr/tabelas/tabelaCad.tex" "tabelaCad.pdf" "tabelaCad" 1720793743 0
   "/home/max/projetos/rProjects/radocr/tabelas/tabelaCad.tex" 1720793039 713 555c5b2f81e40b09dd1694ad8e457745 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -48,10 +48,10 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1690236546 4643411 808b8df776595c3e72145e027cce2612 ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1690236662 8172447 ca0ac289707c48b2b6f90a3a77c195e5 ""
   "/usr/local/texlive/2023/texmf.cnf" 1690236543 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
-  "docente.tex" 1720792744 562 a1abfb148a67efdafe83d9a3970b170f ""
+  "docente.tex" 1720793743 562 4fc91329de8c6a17fe356583cbe8cddd ""
   "headerImeUfg.tex" 1719368584 1287 72ebb71d246020ff49603892b4023769 ""
-  "notas_cad.tex" 1720792744 2147 00f6d07b3fece80a2ad1ee365122672b ""
-  "tabelaCad.aux" 1720793040 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "notas_cad.tex" 1720793743 2147 544554d39f74aa4072c4ef4412597bc6 ""
+  "tabelaCad.aux" 1720793743 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
   "tabelaCad.tex" 1720793039 713 555c5b2f81e40b09dd1694ad8e457745 ""
   "ufgLogo.jpg" 1719335538 80755 ae3379ed9f7ac0e1222e65d6498c7f6e ""
   (generated)
