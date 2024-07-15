@@ -4,7 +4,7 @@
 \alias{filesCheck}
 \title{Função que faz 3 testes nos arquivos}
 \usage{
-filesCheck(files)
+filesCheck(file1, file2)
 }
 \arguments{
 \item{file1, file2}{dois arquivos em pdf}

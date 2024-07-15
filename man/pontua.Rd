@@ -4,10 +4,10 @@
 \alias{pontua}
 \title{Pontua os dados do RADOC seguindo o Anexo II da Resolução Consuni 18/2017}
 \usage{
-pontua(df)
+pontua(file)
 }
 \arguments{
-\item{df}{data frame com os dados do RADOC}
+\item{file}{arquivo em pdf RADOC gerado pelo SICAD+}
 }
 \value{
 um dataframe com os dados e suas respectivas pontuações

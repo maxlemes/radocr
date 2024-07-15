@@ -13,8 +13,6 @@ tabela_cad <- function (file1, file2, n=40){
 
   filesCheck(file1,file2)
 
-
-
   # capturando a tabela vazia
   cad <- cad_orig
 
@@ -82,6 +80,11 @@ tabela_cad <- function (file1, file2, n=40){
   # alinhamento das colunas
   xtable::align(df) <- c(rep('l',2),'l')
 
+    # colocando linhas em negrito
+    for (j in 1:nrow(df)){
+      df[j,1] = paste0('\\textbf{',df[j,1],'}')
+    }
+
   # gerando o arquivo com a tabela para LaTeX
   print(df,
       scalebox = 1.1,
@@ -116,7 +119,7 @@ tabela_cad <- function (file1, file2, n=40){
   bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
   gray <- function(x) {paste('{\\textcolor{gray}{',x,'}}', sep ='')}
 
-  # Definindo onde as linhas verticais serão adicionadas
+  #  gerando o arquivo com a tabela para LaTeX
   print(df,
         scalebox = 0.9,
         hline.after = c(-1,0, nrow(df)),
@@ -129,79 +132,8 @@ tabela_cad <- function (file1, file2, n=40){
 
 
   # Saida em Excel
+  wb_cad <- planilha_cad(doc, aux)
 
-  doc[(nrow(doc)+1),] <- as.list(c('', ''))
-  doc[(nrow(doc)+1),] <- as.list(c('', ''))
-  doc[, 'c'] <- ''
-  doc[, 'd'] <- ''
-  doc[, 'e'] <- ''
-
-  aux <- aux[c(1,1:nrow(aux)),]
-  aux[1,] <- as.list(colnames(aux))
-  colnames(aux) <- colnames(doc)
-
-  aux <- rbind(doc, aux)
-  n_aux <- which(stringr::str_detect(aux[[ 1 ]], paste0('^Item')))
-
-  ## Criando uma planilha
-  wb_cad <- openxlsx2::wb_workbook()
-  # adicionando uma aba
-  wb_cad$add_worksheet(sheet = "NotasCad")
-  # adicionando dos dados na planilha
-  wb_cad$add_data(sheet = 'NotasCad',
-                  aux,
-                  row_names = FALSE,
-                  col_names = FALSE)
-  wb_cad$add_font(sheet = "NotasCad",
-                  dims = 'A1:Z80',
-                  name = "Calibri",
-                  size = "16")
-  wb_cad$add_font(sheet = "NotasCad",
-                  dims = paste0('A',1, ":A", nrow(doc)),
-                  name = "Calibri",
-                  size = "16",
-                  bold = 'single')
-  wb_cad$add_font(sheet = "NotasCad",
-                  i <- which(grepl('^I$', aux[[1]])),
-                  dims = paste0('C',i, ":E", nrow(aux)),
-                  name = "Calibri",
-                  size = "16",
-                  vert_align = c('l','l', 'r','r','r'))
-for(item in c('^Item', 'I', 'II', "III", "IV", 'V', 'P', 'NF', 'S')) {
-  i <- which(grepl(paste0('^',item, '$'), aux[[1]]))
-  wb_cad$add_font(sheet = "NotasCad",
-                  dims = paste0('A',i, ":E", i),
-                  name = "Calibri",
-                  size = "16",
-                  bold = 'single')
-}
-
-for (i in seq(from = 1, to = nrow(doc)-2, by = 2)) {
-cells <- paste0('A',i, ":B", i)
-  wb_cad$add_fill(sheet = "NotasCad",
-                  dims = cells,
-                  color = openxlsx2::wb_color(hex = "#d3d3d3")
-  )
-}
-
-  for (i in seq(from = n_aux, to = nrow(aux), by = 2)) {
-    cells <- paste0('A',i, ":E", i)
-    wb_cad$add_fill(sheet = "NotasCad",
-                    dims = cells,
-                    color = openxlsx2::wb_color(hex = "#d3d3d3")
-    )
-  }
-
-
-  # salvando no drive
-  # openxlsx2::wb_save(wb_cad, file = 'tabelas/planilha_cad.xlsx', overwrite = TRUE)
-  # abrindo a planilha
-  if (interactive()) wb_cad$open()
-
-
-  exe <- openxlsx2::wb_load("tabelas/planilha_cad.xlsx")
-  styles <- openxlsx2::styles_on_sheet(wb_cad, sheet = 'NotasCad')
-  styles
-
-  writexl::write_xlsx(aux, path = 'tabelas/tabela_cad.xlsx')
+  # salvando a tabela no discos
+  openxlsx2::wb_save(wb_cad, file = 'tabelas/planilha_cad.xlsx', overwrite = TRUE)
 }
