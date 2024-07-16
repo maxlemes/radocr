@@ -1,7 +1,9 @@
 tabela_cad <- function (file1, file2, n=40){
   #' Retorna o dataframe pronto para impressão da Tabela Cad
   #'
-  #' @param df dataframe com os dados do RADOC
+  #' @param file1,  dataframe com os dados do 1o RADOC
+  #' @param file2,  dataframe com os dados do 2o RADOC
+  #' @param n,  carga horária do docende (padrão n=40)
   #'
   #' @return um dataframe com a Tabela CAD preenchida
   #'
@@ -10,11 +12,11 @@ tabela_cad <- function (file1, file2, n=40){
   #' tabela_cad(df)
   #' }
   #'
-
+  
   filesCheck(file1,file2)
 
   # capturando a tabela vazia
-  cad <- cad_orig
+  cad <-  radocr::cad_orig
 
   files <- c(file1, file2)
 

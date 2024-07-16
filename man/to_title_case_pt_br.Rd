@@ -66,3 +66,8 @@ originally prepositions or conjunctions, but can play those roles in some contex
 like, for instance \emph{segundo}, which can mean either the numeral \emph{second} or
 the prepositional expression \emph{acording to}.
 }
+\examples{
+to_title_case_pt_br('A VIDA É COMO ELA É')
+
+
+}

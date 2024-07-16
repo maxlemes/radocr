@@ -19,4 +19,5 @@ Extrai os dados do Docente
 \dontrun{
 coleta('data/radoc1.pdf')
 }
+
 }

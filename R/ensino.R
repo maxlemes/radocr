@@ -1,5 +1,8 @@
 ensino <- function(tabela) {
 
+  # definindo variáveis locais
+  b <- d <- NULL
+
   ini <- xts::first(which(stringr::str_detect(tabela, '^I ')))
   end <- xts::first(which(stringr::str_detect(tabela, '^II ')))
 

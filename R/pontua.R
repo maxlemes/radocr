@@ -10,6 +10,11 @@ pontua <- function(file) {
   #' pontua(df)
   #' }
 
+  # definindo variáveis locais
+  listas  <- radocr::listas
+  anexoII <- radocr::anexoII
+
+
   # aux <- df
 
   df <- coleta(file)
@@ -55,8 +60,8 @@ pontua <- function(file) {
 
       df[[ano]][(df[['Item']] %in% listas[[i]])] <-
         ifelse(df[[ano]][(df[['Item']] %in% listas[[i]])] < limite,
-               df[[ano]][(df[['Item']] %in% listas[[i]])],
-               limite)
+              df[[ano]][(df[['Item']] %in% listas[[i]])],
+              limite)
     }
   }
 

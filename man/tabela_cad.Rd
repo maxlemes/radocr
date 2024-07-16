@@ -7,7 +7,11 @@
 tabela_cad(file1, file2, n = 40)
 }
 \arguments{
-\item{df}{dataframe com os dados do RADOC}
+\item{file1, }{dataframe com os dados do 1o RADOC}
+
+\item{file2, }{dataframe com os dados do 2o RADOC}
+
+\item{n, }{carga horária do docende (padrão n=40)}
 }
 \value{
 um dataframe com a Tabela CAD preenchida

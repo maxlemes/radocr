@@ -10,6 +10,9 @@ tabtibble <- function(tabela){
   #' tabtibble(tabela)
   #' }
 
+  # definindo variáveis locais
+  value <- NULL
+  
   df <- tabela
 
   df <- stringr::str_replace_all(df, ":", "|")
@@ -31,7 +34,7 @@ tabtibble <- function(tabela){
 
   df <- df[!is.na(df[[1]]),]
 
-  colnames(df) <- letters[1:ncol(df)]
+ colnames(df) <- letters[1:ncol(df)]
 
   return(df)
 }

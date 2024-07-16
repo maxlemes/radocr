@@ -9,6 +9,11 @@ coleta <- function (file){
   #'\dontrun{
   #' coleta('data/radoc1.pdf')
   #'}
+  #' 
+  
+  # definindo variáveis locais
+  b <- d <- NULL
+  listas <- radocr::listas
 
   # transformando a tabela em texto
   tabela <- readr::read_lines(pdftools::pdf_text(file))
