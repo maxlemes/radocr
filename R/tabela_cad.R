@@ -75,6 +75,8 @@ tabela_cad <- function (file1, file2, n=40){
     doc <- rbind(doc, aux)
   }
 
+  
+
   # gerando uma tabela em LaTeX com os dados do docente
   # transforma em uma tabela de latex
   df <- xtable::xtable(doc)

@@ -69,5 +69,4 @@ the prepositional expression \emph{acording to}.
 \examples{
 to_title_case_pt_br('A VIDA É COMO ELA É')
 
-
 }

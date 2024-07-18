@@ -2,7 +2,7 @@ Package: radocr
 Title: Este Pacote extrai os dados de um RADOC gerado pelo SICAD+
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Max", "Lemes", , "max@ufg.br", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Este pacote extrai os dados de um arquivo em pdf contendo o RADOC 
    gerado pelo SICAD+ e apresenta um resumo dos dados.

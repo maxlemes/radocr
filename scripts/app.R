@@ -19,42 +19,9 @@ arquivos <- paste0('data-raw/',files[-c(1,10)])
 # Testando os arquivos
 # filesCheck(arquivos)
 
-file1 <- arquivos[5]
-file2 <- arquivos[6]
+file1 <- arquivos[1]
+file2 <- arquivos[2]
 
-tabela_cad(file1,file2)
-
-
-file3 <- NA
-#----- Afastamentos ------------------------------------------------------------
-afastamentos(file2)
-#
-# docente(file)
-
-
-pontua(file1)
-
-tabela_cad(file2,file1)
-
-setwd("tabelas")
-system2('pdflatex', 
-        args = 'tabelaCad.tex', 
-        wait = FALSE)
-system2('open', 
-        args = 'tabelaCad.pdf', 
-        wait = FALSE)
-setwd("../")
-
-
-# abrindo a planilha
-
-
-o# print(coleta(file), n = 30)
-
-print(pontua(df), n = 30)
-
-df <- coleta(file)
-
-pontua(df)
-
-https://guslipkin.medium.com/making-pretty-excel-files-in-r-46a15c7a2ee8
+output_file <- "Teste2.tex"
+tabela_cad_tex(file1, file2, output_file)
+tinytex::latexmk(output_file)

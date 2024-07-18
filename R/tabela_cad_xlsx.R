@@ -1,7 +1,30 @@
-planilha_cad <- function (docente, tab_cad) {
+#' Create a Exccel Document from PDF Data
+#'
+#' This function reads data from to PDF files and creates a Exccel (.xlsx) 
+#' document containing a table with the datas.
+#'
+#' @param pdf_file1 Path to the PDF file 1.
+#' @param pdf_file2 Path to the PDF file 2.
+#' @param n,  carga horária do docende (padrão n=40)
+#' 
+#' @param output_file Path to the output Exccel (.xlsx) file.
+#' @export
+#' 
+#' @examples
+#'\dontrun{
+#' tabela_cad_xlsx(pdf_file1, pdf_file2, output_file, n=40)
+#' }
 
-  doc <- docente
-  aux <- tab_cad
+tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file, n=40) {
+
+  # Check PDF files -------------------------------------------------------------------------
+  radocr:::filesCheck(pdf_file1, pdf_file2)
+
+  # pegando os dados do docente
+  doc <- radocr:::final_doc(pdf_file1, pdf_file2)
+
+  # gerando a tabela da CAD em Latex
+  cad <- radocr:::final_cad(pdf_file1, pdf_file2)
   
   doc[(nrow(doc)+1),] <- as.list(c('', ''))
   doc[(nrow(doc)+1),] <- as.list(c('', ''))
@@ -9,12 +32,12 @@ planilha_cad <- function (docente, tab_cad) {
   doc[, 'd'] <- ''
   doc[, 'e'] <- ''
 
-  aux <- aux[c(1,1:nrow(aux)),]
-  aux[1,] <- as.list(colnames(aux))
-  colnames(aux) <- colnames(doc)
+  cad <- cad[c(1,1:nrow(cad)),]
+  cad[1,] <- as.list(colnames(cad))
+  colnames(cad) <- colnames(doc)
 
-  aux <- rbind(doc, aux)
-  n_aux <- which(stringr::str_detect(aux[[ 1 ]], paste0('^Item')))
+  cad <- rbind(doc, cad)
+  n_cad <- which(stringr::str_detect(cad[[ 1 ]], paste0('^Item')))
 
   ## Criando uma planilha
   wb_cad <- openxlsx2::wb_workbook()
@@ -24,7 +47,7 @@ planilha_cad <- function (docente, tab_cad) {
 
   # adicionando dos dados na planilha
   wb_cad$add_data(sheet = 'NotasCad',
-                  aux,
+                  cad,
                   row_names = FALSE,
                   col_names = FALSE)
   
@@ -43,7 +66,7 @@ planilha_cad <- function (docente, tab_cad) {
   
   # colocando as linhas destacas em negrito
   for(item in c('^Item', 'I', 'II', "III", "IV", 'V', 'P', 'NF', 'S')) {
-    i <- which(grepl(paste0('^',item, '$'), aux[[1]]))
+    i <- which(grepl(paste0('^',item, '$'), cad[[1]]))
     wb_cad$add_font(sheet = "NotasCad",
                     dims = paste0('A',i, ":E", i),
                     name = "Calibri",
@@ -61,7 +84,7 @@ planilha_cad <- function (docente, tab_cad) {
   }
 
    # colorindo as linhas alternadamentes no resto da tabela
-  for (i in seq(from = n_aux, to = nrow(aux), by = 2)) {
+  for (i in seq(from = n_cad, to = nrow(cad), by = 2)) {
     cells <- paste0('A',i, ":E", i)
     wb_cad$add_fill(sheet = "NotasCad",
                     dims = cells,
@@ -76,9 +99,10 @@ planilha_cad <- function (docente, tab_cad) {
   
   # Ajustando os alinhamentos das colunas
   wb_cad$add_cell_style(sheet = "NotasCad",
-                        i <- which(grepl('^I$', aux[[1]])),
-                        dims = paste0('C',i, ":E", nrow(aux)),
+                        i <- which(grepl('^I$', cad[[1]])),
+                        dims = paste0('C',i, ":E", nrow(cad)),
                         horizontal = 'center')
 
-  return(wb_cad)
+  # salvando a tabela no discos
+  openxlsx2::wb_save(wb_cad, file =  output_file, overwrite = TRUE)
 }

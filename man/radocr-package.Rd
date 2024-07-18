@@ -9,7 +9,7 @@
 Este pacote extrai os dados de um arquivo em pdf contendo o RADOC gerado pelo SICAD+ e apresenta um resumo dos dados.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Max Lemes \email{max@ufg.br} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
 
 }
 \keyword{internal}

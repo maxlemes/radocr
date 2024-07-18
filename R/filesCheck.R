@@ -1,20 +1,20 @@
-filesCheck <- function(file1, file2){
-  #' Função que faz 3 testes nos arquivos
-  #'
-  #' 1) Testa se o arquivo é um RADOC do SICAD+
-  #' 2) Testa se os dois RADOCs são do memso docente
-  #' 3) Testa se os dois RADOCs são de anos distintos
-  #'
-  #' @param file1,file2 dois arquivos em pdf
-  #'
-  #' @return Uma mensagem com a avaliação feita
-  #'
-  #' @examples
-  #'\dontrun{
-  #' filesCheck(file1, file2)
-  #' }
+#' Função que faz 3 testes nos arquivos
+#'
+#' 1) Testa se o arquivo é um RADOC do SICAD+
+#' 2) Testa se os dois RADOCs são do memso docente
+#' 3) Testa se os dois RADOCs são de anos distintos
+#'
+#' @param pdf_file1,pdf_file2 dois arquivos em pdf
+#'
+#' @return Uma mensagem com a avaliação feita
+#'
+#' @examples
+#'\dontrun{
+#' filesCheck(pdf_file1, pdf_file2)
+#' }
+filesCheck <- function(pdf_file1, pdf_file2){
 
-  files <- c(file1, file2)
+  files <- c(pdf_file1, pdf_file2)
 
   aux <- NULL
   ano <- NULL

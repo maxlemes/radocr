@@ -1,14 +1,14 @@
+#' Extrai os dados do Docente
+#'
+#' @param pdf_file arquivo PDF do RADOC do docente
+#'
+#' @return um dataframe com os dados do docente
+#'
+#' @examples
+#' \dontrun{
+#' docente(tabela)
+#' }
 docente <- function (file){
-  #' Extrai os dados do Docente
-  #'
-  #' @param file arquivo em pdf do RADOC do docente
-  #'
-  #' @return um dataframe com os dados do docente
-  #'
-  #' @examples
-  #' \dontrun{
-  #' docente(tabela)
-  #' }
 
   # transformando o arquivo em tabela e depois em texto
   tabela <- readr::read_lines(pdftools::pdf_text(file))
@@ -20,7 +20,7 @@ docente <- function (file){
 
   df <- tabela[ini:end]
 
-  df <- tabtibble(df)
+  df <- radocr:::tabtibble(df)
 
   # as vezes o nome da lotação passa para outra linha
   if (is.na(df[[2]][8])){

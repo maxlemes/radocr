@@ -1,14 +1,15 @@
+#' Afastamentos
+#'
+#' @param file arquivo em pdf do RADOC do docente
+#'
+#' @return um dataframe com os dados do afastamento do docente
+#'
+#' @examples
+#' \dontrun{
+#' afastamentos(tabela)
+#' }
+
 afastamentos <- function(file) {
-  #' Afastamentos
-  #'
-  #' @param file arquivo em pdf do RADOC do docente
-  #'
-  #' @return um dataframe com os dados do afastamento do docente
-  #'
-  #' @examples
-  #' \dontrun{
-  #' afastamentos(tabela)
-  #' }
 
   # transformando o arquivo em tabela e depois em texto
   tabela <- readr::read_lines(pdftools::pdf_text(file))
@@ -26,7 +27,7 @@ afastamentos <- function(file) {
 
   df <- tabela[ini:(end - 1)]
 
-  df <- tabtibble(df)
+  df <- radocr:::tabtibble(df)
 
   # Quando há afastamento
   if (df[[1]][2] != "Nenhum registro.") {

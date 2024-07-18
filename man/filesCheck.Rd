@@ -4,10 +4,10 @@
 \alias{filesCheck}
 \title{Função que faz 3 testes nos arquivos}
 \usage{
-filesCheck(file1, file2)
+filesCheck(pdf_file1, pdf_file2)
 }
 \arguments{
-\item{file1, file2}{dois arquivos em pdf}
+\item{pdf_file1, pdf_file2}{dois arquivos em pdf}
 }
 \value{
 Uma mensagem com a avaliação feita
@@ -21,6 +21,6 @@ Uma mensagem com a avaliação feita
 }
 \examples{
 \dontrun{
-filesCheck(file1, file2)
+filesCheck(pdf_file1, pdf_file2)
 }
 }

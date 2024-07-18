@@ -7,7 +7,7 @@
 docente(file)
 }
 \arguments{
-\item{file}{arquivo em pdf do RADOC do docente}
+\item{pdf_file}{arquivo PDF do RADOC do docente}
 }
 \value{
 um dataframe com os dados do docente
