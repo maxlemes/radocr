@@ -1,0 +1,39 @@
+---
+title: "Vignette para a Função tabela_cad_tex"
+author: "Max Lemes"
+output: 
+  pdf_document: default
+  html_document:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{tabela_cad_tex}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introdução
+
+A função `tabela_cad_tex` cria um documento LaTeX contendo a Tabela de Avaliação da CAD com dados extraídos de dois arquivos PDF contendo os RADOCs do docente a ser avaliado.
+
+A função `tabela_cad_tex` aceita como entrada dois arquivos PDF (o caminho dos arquivos. A entrada deve estar entre aspas) contendo os RADOCS, e opcionalmente o local e o nome do arquivo a ser salvo e um parâmetro para a carga horária do docente (por padrão n=40).
+
+# Exemplos de Uso
+
+```r
+\dontrun{
+tabela_cad_tex("caminho/para/radoc1.pdf", "caminho/para/radoc2.pdf", "tabelas/tabela_cad.tex", n=20)
+}
+```
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(radocr)
+```
