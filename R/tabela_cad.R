@@ -137,7 +137,9 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
   writeLines(latex_content, output_file)
   sink() # Restaura a saída padrão para o console
 
-  return(paste("O arquivo", output_file, "foi criado"))
+  # return(paste("O arquivo", output_file, "foi criado"))
+  return("Tabela CAD criada com sucesso.")
+
 }
 #
 # --------------------  Função EXTERNA - tabela_cad_xlsx  ----------------------

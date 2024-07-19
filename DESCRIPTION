@@ -2,8 +2,7 @@ Package: radocr
 Title: Do RADOC para a Tabela Cad
 Version: 0.0.0.9000
 Authors@R: 
-    person("Max", "Lemes", , "max@ufg.br", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Max", "Lemes", , "max@ufg.br", role = c("aut", "cre"))
 Description: Este pacote extrai os dados de 2 arquivos PDF contendo RADOCs
    gerados pelo SICAD+ e gera retorna a Tabela Cad com os dados pontuados. O usuário pode escolher se a Tabela Cad será retornada em um arquivo LaTeX (.tex) ou em uma planilha Excel (.xlsx).
 License: MIT + file LICENSE
