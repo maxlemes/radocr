@@ -1,143 +1,276 @@
-tabela_cad <- function (file1, file2, n=40){
-  #' Retorna o dataframe pronto para impressão da Tabela Cad
-  #'
-  #' @param file1,  dataframe com os dados do 1o RADOC
-  #' @param file2,  dataframe com os dados do 2o RADOC
-  #' @param n,  carga horária do docende (padrão n=40)
-  #'
-  #' @return um dataframe com a Tabela CAD preenchida
-  #'
-  #' @examples
-  #' \dontrun{
-  #' tabela_cad(df)
-  #' }
-  #'
-  
-  filesCheck(file1,file2)
+#
+# ---------------------  Função EXTERNA - tabela_cad_tex  ----------------------
+#
+#' Cria a Tabela Cad (em LaTeX) a partir dos RADOCs
+#' 
+#' @description
+#' Esta função lê os dados do RADOC em 2 arquivos PDF e retorna um
+#' arquivo LaTeX (.tex) com a Tabela Cad preenchida.
+#'
+#' @param pdf_file1 o caminho para o arquivo contendo o 1o RADOC.
+#' @param pdf_file2 o caminho para o arquivo contendo o 2o RADOC.
+#' @param output_file o caminho onde o arquivo de saída deve ser salvo.
+#' @param n  carga horária do docende (padrão n=40)
+#' 
+#' @details
+#' Em caso de ausência do argumento `output_file` o arquivo será salvo na
+#' pasta atual.
+#'
+#' @examples
+#' \dontrun{
+#' tabela_cad_tex(pdf_file1, pdf_file2, output_file)
+#' }
+#' @export
+tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
 
-  # capturando a tabela vazia
-  cad <-  radocr::cad_orig
+  # Check PDF files
+  filesCheck(pdf_file1, pdf_file2)
 
-  files <- c(file1, file2)
+  # pegando os dados do docente
+  doc <- docente(pdf_file1, pdf_file2)
 
-  # montando o dataframe com os dados
-  for(file in files){
-    df <- pontua(file)
-
-    cad[, colnames(df)[4]] <- as.numeric(NA)
-
-    lista_itens <- cad[[1]][1:21]
-
-    for(item in lista_itens) {
-      itens <- which(stringr::str_detect(df[[ 1 ]], paste0('^',item,'-')))
-      dc <- df[itens,]
-      cad[cad[[1]]== item,ncol(cad)] <- sum(dc[[ 4 ]])
-    }
-  }
-
-  # ordenando os anos (caso os arquivos sejam inserido em ordem errada)
-  anos <- as.numeric(colnames(cad)[3:ncol(cad)])
-  ordem <- order(anos)
-  cad[, 3:ncol(cad)] <- cad[, ordem + 2]
-
-  # somando as pontuacoes dos anos analisados
-  cad[, 'Total'] <- rowSums(cad[, 3:ncol(cad)])
-
-
-  # calculando os valores de P e S
-  cad[cad[[1]]=='P', ncol(cad)] <- sum(cad[cad[[1]] %in% c('I', 'II', "III", "IV", 'V'), ncol(cad)])
-  cad[cad[[1]]=='S', ncol(cad)] <- sum(cad[cad[[1]] %in% c('I', "III", "IV", 'V'), ncol(cad)])
-
-  # calculando a nota da CAD
-  if (n == 40) {
-    cad[cad[[1]]=='NF', ncol(cad)] <- min(cad[cad[[1]]=='P', ncol(cad)]/32, 10)
-  } else {
-    cad[cad[[1]]=='NF', ncol(cad)] <- min(cad[cad[[1]]=='P', ncol(cad)]/20, 10)
-  }
-
-
-  # Coletando os dados do docente
-  doc <- docente(file1)
-
-  # Verificando os afastamentos
-  afast <- cbind(afastamentos(file1), afastamentos(file2)[,2])
-  afast[, 'Total'] <- rowSums(afast[, 2:3])
-
-  if (afast[['Total']][1] != 0) {
-    aux <- afast[1:2,c(1,4)]
-    colnames(aux) <- colnames(doc)
-    doc <- rbind(doc, aux)
-  } else {
-    aux <- tibble::tibble(
-      'a' = 'Afastamentos',
-      'b' = 'Nenhum Registro'
-    )
-    doc <- rbind(doc, aux)
-  }
-
-  
-
-  # gerando uma tabela em LaTeX com os dados do docente
   # transforma em uma tabela de latex
   df <- xtable::xtable(doc)
 
   # alinhamento das colunas
-  xtable::align(df) <- c(rep('l',2),'l')
-
-    # colocando linhas em negrito
-    for (j in 1:nrow(df)){
-      df[j,1] = paste0('\\textbf{',df[j,1],'}')
-    }
-
-  # gerando o arquivo com a tabela para LaTeX
-  print(df,
-      scalebox = 1.1,
-      hline.after = c(-1,nrow(df)),
-      sanitize.text.function=function(x){x},
-      include.rownames=FALSE,
-      include.colnames=FALSE,
-      file = "tabelas/docente.tex")
-
-  # gerando a tabela da CAD em Latex
-  # transforma em uma tabela de latex
-  aux <- cad
-  for (i in 3:ncol(aux)){
-    aux[[i]] <- as.character(format(aux[[i]], nsmall = 1))
-    aux[[i]] <- stringr::str_replace_all(aux[[i]], "^\\s+|\\s+$", "")
-    aux[[i]] <- sub(".", ",", aux[[i]], fixed = TRUE)
-  }
-  aux[aux[[1]] %in% c('P','NF','S'), 3:4] <- '-'
-
-  df <- xtable::xtable(aux)
-
-  # alinhamento das colunas
-  xtable::align(df) <- c('lll|r|r|r')
+  xtable::align(df) <- c(rep("l", 2), "l")
 
   # colocando linhas em negrito
-  itens  <- c(1,5,10,13,18,22,23,24)
-  for (j in itens){
-    df[j,] = paste0('\\textbf{',df[j,],'}')
+  for (j in 1:nrow(df)) {
+    df[j, 1] <- paste0("\\textbf{", df[j, 1], "}")
+  }
+
+  # gerando a tabela em LaTeX
+  table_doc <- print(df,
+    scalebox = 1.1,
+    hline.after = c(-1, nrow(df)),
+    sanitize.text.function = function(x) {
+      x
+    },
+    include.rownames = FALSE,
+    include.colnames = FALSE,
+    type = "latex"
+  )
+
+  # gerando a tabela da CAD em Latex
+  cad <- tab_cad(pdf_file1, pdf_file2)
+
+  df <- xtable::xtable(cad)
+
+  # alinhamento das colunas
+  xtable::align(df) <- c("lll|r|r|r")
+
+  # colocando linhas em negrito
+  itens <- c(1, 5, 10, 13, 18, 22, 23, 24)
+  for (j in itens) {
+    df[j, ] <- paste0("\\textbf{", df[j, ], "}")
   }
 
   # criando o arquivo com a tabela
-  bold <- function(x) {paste('{\\textbf{',x,'}}', sep ='')}
-  gray <- function(x) {paste('{\\textcolor{gray}{',x,'}}', sep ='')}
+  bold <- function(x) {
+    paste("{\\textbf{", x, "}}", sep = "")
+  }
+  gray <- function(x) {
+    paste("{\\textcolor{gray}{", x, "}}", sep = "")
+  }
 
   #  gerando o arquivo com a tabela para LaTeX
-  print(df,
-        scalebox = 0.9,
-        hline.after = c(-1,0, nrow(df)),
-        include.rownames=FALSE,
-        include.colnames=TRUE,
-        sanitize.text.function=function(x){x},
-        sanitize.rownames.function=gray,
-        sanitize.colnames.function=bold,
-        file = "tabelas/notas_cad.tex")
+  table_cad <- print(df,
+    scalebox = 0.9,
+    hline.after = c(-1, 0, nrow(df)),
+    include.rownames = FALSE,
+    include.colnames = TRUE,
+    sanitize.text.function = function(x) {
+      x
+    },
+    sanitize.rownames.function = gray,
+    sanitize.colnames.function = bold,
+    type = "latex"
+  )
 
+  # gerando as linhas de comando do arquivo Latex
+  latex_content <- c(
+    "\\documentclass[11pt,a4paper]{article}",
+    "\\usepackage{booktabs}",
+    "\\usepackage{geometry}",
+    "\\usepackage[table]{xcolor} %for use in color links",
+    "\\usepackage{graphicx}",
+    "",
+    "% definindo as margens do documento",
+    "\\geometry{a4paper,text={17.5cm,27cm},centering}",
+    "",
+    "% Definindo as cores das linhas da Tabela",
+    "\\definecolor{lightgray}{gray}{0.9}",
+    "\\rowcolors{1}{white}{lightgray}",
+    "",
+    "\\begin{document}",
+    "\\thispagestyle{empty}",
+    "",
+    "\\begin{center}",
+    "  \\textbf{UNIVERSIDADE FEDERAL DE GOI\u00c1S\\\\",
+    "  INSTITUTO DE MATEM\u00c1TICA E ESTAT\u00cdSTICA}",
+    "\\end{center}",
+    "",
+    "\\vspace{1cm}",
+    "",
+    "\\begin{center}",
+    "\\large \\textbf{Dados do Docente}",
+    "\\end{center}",
+    "\\centering",
+    table_doc,
+    "",
+    "\\begin{center}",
+    "\\large \\textbf{Tabela de Avalia\u00e7\u00e3o da CAD}",
+    "\\end{center}",
+    "\\centering",
+    table_cad,
+    "",
+    "\\end{document}"
+  )
 
-  # Saida em Excel
-  wb_cad <- planilha_cad(doc, aux)
+  if (is.null(output_file)) {
+    output_file <- file.path(getwd(), "tabela_cad.tex")
+  }
+
+  # Write the LaTeX content to the output file
+  sink(tempfile()) # Redireciona a saída padrão para um arquivo temporário
+  writeLines(latex_content, output_file)
+  sink() # Restaura a saída padrão para o console
+
+  return(paste("O arquivo", output_file, "foi criado"))
+}
+#
+# --------------------  Função EXTERNA - tabela_cad_xlsx  ----------------------
+#
+#' Cria a Tabela Cad (em Excel) a partir dos RADOCs
+#' 
+#' @description
+#' Esta função lê os dados do RADOC em 2 arquivos PDF e retorna um
+#' arquivo Excel (.xlsx) com a Tabela Cad preenchida.
+#'
+#' @param pdf_file1 o caminho para o arquivo contendo o 1o RADOC.
+#' @param pdf_file2 o caminho para o arquivo contendo o 2o RADOC.
+#' @param output_file o caminho onde o arquivo de saída deve ser salvo.
+#' @param n  carga horária do docende (padrão n=40)
+#' 
+#' @details
+#' Em caso de ausência do argumento `output_file` o arquivo será salvo na
+#' pasta atual.
+#'
+#' @examples
+#' \dontrun{
+#' tabela_cad_xlsx(pdf_file1, pdf_file2, output_file, n)
+#' }
+#' @export
+tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
+
+  # Check PDF files
+  filesCheck(pdf_file1, pdf_file2)
+
+  # pegando os dados do docente
+  doc <- docente(pdf_file1, pdf_file2)
+
+  # gerando a tabela da CAD em Latex
+  cad <- tab_cad(pdf_file1, pdf_file2)
+
+  doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
+  doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
+  doc[, "c"] <- ""
+  doc[, "d"] <- ""
+  doc[, "e"] <- ""
+
+  cad <- cad[c(1, 1:nrow(cad)), ]
+  cad[1, ] <- as.list(colnames(cad))
+  colnames(cad) <- colnames(doc)
+
+  cad <- rbind(doc, cad)
+  n_cad <- which(stringr::str_detect(cad[[1]], paste0("^Item")))
+
+  ## Criando uma planilha
+  wb_cad <- openxlsx2::wb_workbook()
+
+  # adicionando uma aba
+  wb_cad$add_worksheet(sheet = "NotasCad")
+
+  # adicionando dos dados na planilha
+  wb_cad$add_data(
+    sheet = "NotasCad",
+    cad,
+    row_names = FALSE,
+    col_names = FALSE
+  )
+
+  # editando a fonte da planilha
+  wb_cad$add_font(
+    sheet = "NotasCad",
+    dims = "A1:Z80",
+    name = "Calibri",
+    size = "16"
+  )
+
+  # colocando a primeira coluna docente em negrito
+  wb_cad$add_font(
+    sheet = "NotasCad",
+    dims = paste0("A", 1, ":A", nrow(doc)),
+    name = "Calibri",
+    size = "16",
+    bold = TRUE
+  )
+
+  # colocando as linhas destacas em negrito
+  for (item in c("^Item", "I", "II", "III", "IV", "V", "P", "NF", "S")) {
+    i <- which(grepl(paste0("^", item, "$"), cad[[1]]))
+    wb_cad$add_font(
+      sheet = "NotasCad",
+      dims = paste0("A", i, ":E", i),
+      name = "Calibri",
+      size = "16",
+      bold = TRUE
+    )
+  }
+
+  # colorindo as linhas alternadamentes nos dados do docente
+  for (i in seq(from = 1, to = nrow(doc) - 2, by = 2)) {
+    cells <- paste0("A", i, ":B", i)
+    wb_cad$add_fill(
+      sheet = "NotasCad",
+      dims = cells,
+      color = openxlsx2::wb_color(hex = "#d3d3d3")
+    )
+  }
+
+  # colorindo as linhas alternadamentes no resto da tabela
+  for (i in seq(from = n_cad, to = nrow(cad), by = 2)) {
+    cells <- paste0("A", i, ":E", i)
+    wb_cad$add_fill(
+      sheet = "NotasCad",
+      dims = cells,
+      color = openxlsx2::wb_color(hex = "#d3d3d3")
+    )
+  }
+
+  # ajustando a largura das colunas
+  wb_cad$set_col_widths(
+    sheet = "NotasCad",
+    cols = 1:5,
+    widths = "auto"
+  )
+
+  # Ajustando os alinhamentos das colunas
+  wb_cad$add_cell_style(
+    sheet = "NotasCad",
+    i = which(grepl("^I$", cad[[1]])),
+    dims = paste0("C", i, ":E", nrow(cad)),
+    horizontal = "center"
+  )
+
+  if (is.null(output_file)) {
+    output_file <- file.path(getwd(), "tabela_cad.xlsx")
+  }
 
   # salvando a tabela no discos
-  openxlsx2::wb_save(wb_cad, file = 'tabelas/planilha_cad.xlsx', overwrite = TRUE)
+  openxlsx2::wb_save(wb_cad, file = output_file, overwrite = TRUE)
+
+  # return(paste("O arquivo", output_file, "foi criado"))
+  return("Tabela CAD criada com sucesso.")
 }

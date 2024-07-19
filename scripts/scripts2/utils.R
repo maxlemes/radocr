@@ -1,17 +1,16 @@
-#
-# ---------------------  tabtibble  --------------------------------------------
-#
-tabtibble <- function(tabela) {
-  #' Converte a tabela em texto em um dataframe
-  #'
-  #' @param tabela texto com os dados do RADOC do docente
-  #'
-  #' @return um dataframe com os dados do texto
-  #'
-  #' @examples
-  #' \dontrun{
-  #' tabtibble(tabela)
-  #' }
+#' Converte a tabela em texto em um dataframe
+#'
+#' @param tabela texto com os dados do RADOC do docente
+#'
+#' @return um dataframe com os dados do texto
+#'
+#' @examples
+#' \dontrun{
+#' tabtibble(tabela)
+#' }
+#' @keywords internal
+tabtibble <- function(tabela) { #---  tabtibble  -------------------------------
+  #
 
   # definindo variáveis locais
   value <- NULL
@@ -42,59 +41,56 @@ tabtibble <- function(tabela) {
 
   return(df)
 }
-#
-# ---------------------  to_title_case_pt_br  ----------------------------------
-#
-to_title_case_pt_br <- function(texto) {
-  #' Convertion to title case with lower case for some classes of words.
-  #'
-  #' In written Portuguese, when converting to title case, it is not usual
-  #' to keep in title case some words, like prepositions, conjunctions,
-  #' articles and some kinds of pronouns.  This functions locates those
-  #' cases and converts them to lower case.
-  #'
-  #' @param texto vector of characters to be converted to title case
-  #'     but with connector words (one-word prepositions and conjunctions)
-  #'     and articles (both definite and indefinite) and some pronouns
-  #'     in lower case.
-  #'
-  #' @details
-  #' The current list of words converted to lower case is:
-  #' - articles
-  #'   - o(s), a(s), um, uma(s), uns
-  #' - pronouns
-  #'   - me, mim, meu(s), minha(s)
-  #'   - te, ti, teu(s), tua(s)
-  #'   - lhe(s), seu(s), sua(s)
-  #'   - nos, nosso(a)(s)
-  #'   - vos, vosso(a)(s)
-  #' - prepositions, their contractions and combinations
-  #'   - prepositions
-  #'     - a, ante, até, após, com, contra, de, desde, em, entre, para,
-  #'       perante, por, sem, sob, sobre, trás
-  #'   - contractions
-  #'     - à(s), do(a)(s), no(a)(s), pelo(a)(s), pro(a)(s) (informal language)
-  #'   - combinations
-  #'     - ao(s)
-  #' - conjunctions
-  #'   - conforme, conquanto, contudo, durante, embora, enquanto, então,
-  #'     entretanto, exceto, logo, mas, nem, ou, ora, pois, porém, porque,
-  #'     porquanto, portanto, quando, quanto, que, se, senão, todavia
-  #'
-  #' The above list is far from complete or exaustive, mainly due to the absence
-  #' of the accidental prepositions and conjuntions, which are words that are not
-  #' originally prepositions or conjunctions, but can play those roles in some contexts,
-  #' like, for instance _segundo_, which can mean either the numeral _second_ or
-  #' the prepositional expression _acording to_.
-  #'
-  #' @return vector of characters with the same dimension of `string`
-  #' @export
-  #' @md
-  #'
-  #' @examples
-  #' to_title_case_pt_br('A VIDA É COMO ELA É')
-  #'
-  ## You must have package stringr installed.
+
+#' Convertion to title case with lower case for some classes of words.
+#'
+#' In written Portuguese, when converting to title case, it is not usual
+#' to keep in title case some words, like prepositions, conjunctions,
+#' articles and some kinds of pronouns.  This functions locates those
+#' cases and converts them to lower case.
+#'
+#' @param texto vector of characters to be converted to title case
+#'     but with connector words (one-word prepositions and conjunctions)
+#'     and articles (both definite and indefinite) and some pronouns
+#'     in lower case.
+#'
+#' @details
+#' The current list of words converted to lower case is:
+#' - articles
+#'   - o(s), a(s), um, uma(s), uns
+#' - pronouns
+#'   - me, mim, meu(s), minha(s)
+#'   - te, ti, teu(s), tua(s)
+#'   - lhe(s), seu(s), sua(s)
+#'   - nos, nosso(a)(s)
+#'   - vos, vosso(a)(s)
+#' - prepositions, their contractions and combinations
+#'   - prepositions
+#'     - a, ante, até, após, com, contra, de, desde, em, entre, para,
+#'       perante, por, sem, sob, sobre, trás
+#'   - contractions
+#'     - à(s), do(a)(s), no(a)(s), pelo(a)(s), pro(a)(s) (informal language)
+#'   - combinations
+#'     - ao(s)
+#' - conjunctions
+#'   - conforme, conquanto, contudo, durante, embora, enquanto, então,
+#'     entretanto, exceto, logo, mas, nem, ou, ora, pois, porém, porque,
+#'     porquanto, portanto, quando, quanto, que, se, senão, todavia
+#'
+#' The above list is far from complete or exaustive, mainly due to the absence
+#' of the accidental prepositions and conjuntions, which are words that are not
+#' originally prepositions or conjunctions, but can play those roles in some contexts,
+#' like, for instance _segundo_, which can mean either the numeral _second_ or
+#' the prepositional expression _acording to_.
+#'
+#' @return vector of characters with the same dimension of `string`
+#' @md
+#'
+#' @examples
+#' to_title_case_pt_br('A VIDA É COMO ELA É')
+#' @keywords internal
+## You must have package stringr installed.
+to_title_case_pt_br <- function(texto) {#---  to_title_case_pt_br  -------------
 
   texto <- stringr::str_to_title(texto)
 
@@ -135,24 +131,23 @@ to_title_case_pt_br <- function(texto) {
   ))
   return(texto)
 }
-#
-# --------------------  filesCheck  --------------------------------------------
-#
-filesCheck <- function(pdf_file1, pdf_file2) {
-  #' Função que faz 3 testes nos arquivos
-  #'
-  #' 1) Testa se o arquivo é um RADOC do SICAD+
-  #' 2) Testa se os dois RADOCs são do memso docente
-  #' 3) Testa se os dois RADOCs são de anos distintos
-  #'
-  #' @param pdf_file1,pdf_file2 dois arquivos em pdf
-  #'
-  #' @return Uma mensagem com a avaliação feita
-  #'
-  #' @examples
-  #' \dontrun{
-  #' filesCheck(pdf_file1, pdf_file2)
-  #' }
+
+#' Função que faz 3 testes nos arquivos
+#'
+#' 1) Testa se o arquivo é um RADOC do SICAD+
+#' 2) Testa se os dois RADOCs são do memso docente
+#' 3) Testa se os dois RADOCs são de anos distintos
+#'
+#' @param pdf_file1,pdf_file2 dois arquivos em pdf
+#'
+#' @return Uma mensagem com a avaliação feita
+#'
+#' @examples
+#' \dontrun{
+#' filesCheck(pdf_file1, pdf_file2)
+#' }
+#' @keywords internal
+filesCheck <- function(pdf_file1, pdf_file2) {#---  filesCheck  ----------------
 
   files <- c(pdf_file1, pdf_file2)
 
@@ -204,10 +199,3 @@ filesCheck <- function(pdf_file1, pdf_file2) {
 
   return("Success: files checked.")
 }
-#
-# ------------------------------------------------------------------------------
-#
-
-#
-# ------------------------------------------------------------------------------
-#

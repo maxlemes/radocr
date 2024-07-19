@@ -14,7 +14,6 @@
 #'\dontrun{
 #' tabela_cad_tex(pdf_file1, pdf_file2, output_file)
 #' }
-
 tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file, n=40) {
   
   # Check PDF files -------------------------------------------------------------------------

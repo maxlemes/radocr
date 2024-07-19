@@ -1,8 +1,7 @@
-rm(list = ls())
 
 library(pdftools)
 library(magrittr)
-library(tidyverse)
+library(tidyr)
 library(stringr)
 
 anexoII <- paste0('data-raw/Anexo_II.pdf')
@@ -1075,4 +1074,4 @@ da <- rbind(da, aux)
 
 anexoII <- da
 
-save(anexoII, file = 'data/anexoII.rda')
+# save(anexoII, file = 'data/anexoII.rda')

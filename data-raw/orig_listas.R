@@ -107,4 +107,4 @@ lista <- c(
 )
 listas <- append(listas, list(lista150 = lista))
 
-save(listas, file = 'data/listas.rda')
+# save(listas, file = 'data/listas.rda')

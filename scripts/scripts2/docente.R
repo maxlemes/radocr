@@ -1,25 +1,28 @@
+#
+# ------------------- Função INTERNA - coleta  -------------------------------
+#
+#'Função que lê os dados dos RADOC e cria um dataframe com os dados do
+#'docente
+#'
+#' @param pdf_file1  arquivo PDF com os dados do 1o RADOC
+#' @param pdf_file2  arquivo PDF com os dados do 2o RADOC
+#'
+#' @return um dataframe com os dados do docente
+#'
+#' @examples
+#' \dontrun{
+#' docente(pdf_file1, pdf_file2)
+#' }
+#'
 docente <- function(pdf_file1, pdf_file2) {
-  #'
-  #'Função que lê os dados dos RADOC e cria um dataframe com os dados do
-  #'docente
-  #'
-  #' @param pdf_file1  arquivo PDF com os dados do 1o RADOC
-  #' @param pdf_file2  arquivo PDF com os dados do 2o RADOC
+
+  #' Função que extrai os dados do Docente do arquivo PDF
+  #' 
+  #' @param pdf_file,  arquivo PDF com os dados do 1o RADOC
   #'
   #' @return um dataframe com os dados do docente
   #'
-  #' @examples
-  #' \dontrun{
-  #' docente(pdf_file1, pdf_file2)
-  #' }
-  #'@export
   dados_docente <- function(pdf_file) {
-    #' Função que extrai os dados do Docente do arquivo PDF
-    #' 
-    #' @param pdf_file,  arquivo PDF com os dados do 1o RADOC
-    #'
-    #' @return um dataframe com os dados do docente
-    #'
 
     # transformando o arquivo em tabela e depois em texto
     tabela <- readr::read_lines(pdftools::pdf_text(pdf_file))
@@ -67,10 +70,8 @@ docente <- function(pdf_file1, pdf_file2) {
 
     return(df)
   }
-  #
-  # ----------------------  Função Interna - afastamentos  ---------------------
-  #
-  #' Afastamentos
+
+  #' Função que extrai os dado de afastamentos do docente do RADOC em analise
   #'
   #' @param pdf_file arquivo em pdf do RADOC do docente
   #'
@@ -203,10 +204,10 @@ docente <- function(pdf_file1, pdf_file2) {
 
     return(df)
   }
+
   #
   # --------------------  CORPO da função - docentes  --------------------------
   #
-
   # Coletando os dados do docente
   doc <- dados_docente(pdf_file1)
 
@@ -232,6 +233,3 @@ docente <- function(pdf_file1, pdf_file2) {
 
   return(doc)
 }
-#
-# ------------------------------------------------------------------------------
-#

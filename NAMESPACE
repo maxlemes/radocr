@@ -3,4 +3,3 @@
 export(tabela_cad_tex)
 export(tabela_cad_xlsx)
 export(to_title_case_pt_br)
-importFrom(rlang,.data)

@@ -22,6 +22,8 @@ arquivos <- paste0('data-raw/',files[-c(1,10)])
 file1 <- arquivos[1]
 file2 <- arquivos[2]
 
-output_file <- "Teste2.tex"
-tabela_cad_tex(file1, file2, output_file)
+output_file <- "tabela_cad.tex"
+tabela_cad_tex(file1, file2)
 tinytex::latexmk(output_file)
+
+tabela_cad_xlsx(file1, file2)

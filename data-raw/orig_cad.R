@@ -68,5 +68,5 @@ df[[2]][III] <- 'ATIVIDADES DE PESQUISA E DE EXTENSÃO'
 df[[2]][IV] <- 'ATIVIDADES ADMINISTRATIVAS E DE REPRESENTAÇÃO'
 df[[2]][V] <- 'OUTRAS ATIVIDADES'
 
-cad_orig <- df
-save(cad_orig, file = 'data/cad_orig.rda')
+orig_cad <- df
+# save(orig_cad, file = 'data/orig_cad.rda')

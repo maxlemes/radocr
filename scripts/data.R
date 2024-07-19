@@ -17,7 +17,7 @@
 #'
 #' Contém a Tabela de pontuação da CAD, com os itens a serem pontuados, separados por grupos
 #'
-#' @format ## 'cadOrig'
+#' @format ## 'orig_cad'
 #' A tibble: 24 × 2
 #' \describe{
 #' \item{Item}{Contém o Item da ser avaliado}
@@ -25,7 +25,7 @@
 #' }
 #'
 #'  @source https://sistemas.ufg.br/consultas_publicas/resolucoes/arquivos/Resolucao_CONSUNI_2017_0018.pdf
-"cad_orig"
+"orig_cad"
 
 #' Tópicos
 #'

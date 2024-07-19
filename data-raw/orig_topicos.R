@@ -29,4 +29,4 @@ topicos <- c(
   'V-3 Atividades de Aprendizado e Aperfeiçoamento'
   )
 
-save(topicos, file = 'data/topicos.rda')
+# save(topicos, file = 'data/topicos.rda')
