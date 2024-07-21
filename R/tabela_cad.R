@@ -10,7 +10,6 @@
 #' @param pdf_file1 o caminho para o arquivo contendo o 1o RADOC.
 #' @param pdf_file2 o caminho para o arquivo contendo o 2o RADOC.
 #' @param output_file o caminho onde o arquivo de saída deve ser salvo.
-#' @param n  carga horária do docende (padrão n=40)
 #' 
 #' @details
 #' Em caso de ausência do argumento `output_file` o arquivo será salvo na
@@ -18,22 +17,25 @@
 #'
 #' @examples
 #' \dontrun{
-#' tabela_cad_tex(pdf_file1, pdf_file2, output_file)
+#' pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
+#' pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
+#' output_file <- "pasta_de_destino/nome_arquivo.tex"
+#' tabela_cad_tex(pdf_radoc1, pdf_radoc2, output_file)
 #' }
 #' @export
-tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
+tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL) {
 
   # Check PDF files
   filesCheck(pdf_file1, pdf_file2)
 
-  # pegando os dados do docente
+  # pegando os dados do docente ------------------------------------------------
   doc <- docente(pdf_file1, pdf_file2)
 
   # transforma em uma tabela de latex
   df <- xtable::xtable(doc)
 
   # alinhamento das colunas
-  xtable::align(df) <- c(rep("l", 2), "l")
+  xtable::align(df) <- c(rep("|l|", 2), "l|")
 
   # colocando linhas em negrito
   for (j in 1:nrow(df)) {
@@ -52,13 +54,13 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
     type = "latex"
   )
 
-  # gerando a tabela da CAD em Latex
+  # gerando a tabela da CAD em Latex -------------------------------------------
   cad <- tab_cad(pdf_file1, pdf_file2)
 
   df <- xtable::xtable(cad)
 
   # alinhamento das colunas
-  xtable::align(df) <- c("lll|r|r|r")
+  xtable::align(df) <- c("|l|l|l|r|r|r|")
 
   # colocando linhas em negrito
   itens <- c(1, 5, 10, 13, 18, 22, 23, 24)
@@ -88,7 +90,7 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
     type = "latex"
   )
 
-  # gerando as linhas de comando do arquivo Latex
+  # gerando as linhas de comando do arquivo Latex ------------------------------
   latex_content <- c(
     "\\documentclass[11pt,a4paper]{article}",
     "\\usepackage{booktabs}",
@@ -128,11 +130,12 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
     "\\end{document}"
   )
 
+  # definindo o arquivo de saida padrão
   if (is.null(output_file)) {
     output_file <- file.path(getwd(), "tabela_cad.tex")
   }
 
-  # Write the LaTeX content to the output file
+  # Escrevendo o arquivo LaTeX
   sink(tempfile()) # Redireciona a saída padrão para um arquivo temporário
   writeLines(latex_content, output_file)
   sink() # Restaura a saída padrão para o console
@@ -153,7 +156,6 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
 #' @param pdf_file1 o caminho para o arquivo contendo o 1o RADOC.
 #' @param pdf_file2 o caminho para o arquivo contendo o 2o RADOC.
 #' @param output_file o caminho onde o arquivo de saída deve ser salvo.
-#' @param n  carga horária do docende (padrão n=40)
 #' 
 #' @details
 #' Em caso de ausência do argumento `output_file` o arquivo será salvo na
@@ -161,10 +163,13 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
 #'
 #' @examples
 #' \dontrun{
-#' tabela_cad_xlsx(pdf_file1, pdf_file2, output_file, n)
+#' pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
+#' pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
+#' output_file <- "pasta_de_destino/nome_arquivo.xlsx"
+#' tabela_cad_xlsx(pdf_radoc1, pdf_radoc2, output_file)
 #' }
 #' @export
-tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL, n = 40) {
+tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
 
   # Check PDF files
   filesCheck(pdf_file1, pdf_file2)

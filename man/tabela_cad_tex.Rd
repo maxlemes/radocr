@@ -4,7 +4,7 @@
 \alias{tabela_cad_tex}
 \title{Cria a Tabela Cad (em LaTeX) a partir dos RADOCs}
 \usage{
-tabela_cad_tex(pdf_file1, pdf_file2, output_file = NULL, n = 40)
+tabela_cad_tex(pdf_file1, pdf_file2, output_file = NULL)
 }
 \arguments{
 \item{pdf_file1}{o caminho para o arquivo contendo o 1o RADOC.}
@@ -12,8 +12,6 @@ tabela_cad_tex(pdf_file1, pdf_file2, output_file = NULL, n = 40)
 \item{pdf_file2}{o caminho para o arquivo contendo o 2o RADOC.}
 
 \item{output_file}{o caminho onde o arquivo de saída deve ser salvo.}
-
-\item{n}{carga horária do docende (padrão n=40)}
 }
 \description{
 Esta função lê os dados do RADOC em 2 arquivos PDF e retorna um
@@ -25,6 +23,9 @@ pasta atual.
 }
 \examples{
 \dontrun{
-tabela_cad_tex(pdf_file1, pdf_file2, output_file)
+pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
+pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
+output_file <- "pasta_de_destino/nome_arquivo.tex"
+tabela_cad_tex(pdf_radoc1, pdf_radoc2, output_file)
 }
 }

@@ -14,16 +14,19 @@
 #'
 #' @param pdf_file1,  arquivo PDF com os dados do 1o RADOC
 #' @param pdf_file2,  arquivo PDF com os dados do 2o RADOC
-#' @param n,  carga horária do docende (padrão n=40)
 #'
 #' @return um dataframe com a Tabela CAD preenchida
 #'
 #' @examples
 #' \dontrun{
-#' tab_cad(pdf_file1, pdf_file2, n=(20 ou 40))
+#' tab_cad(pdf_file1, pdf_file2)
 #' }
 #' @keywords internal
-tab_cad <- function(pdf_file1, pdf_file2, n = 40) {
+tab_cad <- function(pdf_file1, pdf_file2) {
+
+  # analisando a carga horária do docente
+  doc <- dados_docente(pdf_file2)
+  n <- ifelse(doc[[2]][6] == "20 Horas", 20, 40)
 
 
   # capturando a tabela vazia

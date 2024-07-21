@@ -4,14 +4,12 @@
 \alias{tab_cad}
 \title{Extrai os dados e retorna um dataframe com a Tabela da CAD}
 \usage{
-tab_cad(pdf_file1, pdf_file2, n = 40)
+tab_cad(pdf_file1, pdf_file2)
 }
 \arguments{
 \item{pdf_file1, }{arquivo PDF com os dados do 1o RADOC}
 
 \item{pdf_file2, }{arquivo PDF com os dados do 2o RADOC}
-
-\item{n, }{carga horária do docende (padrão n=40)}
 }
 \value{
 um dataframe com a Tabela CAD preenchida
@@ -26,7 +24,7 @@ pontuar os dados.
 }
 \examples{
 \dontrun{
-tab_cad(pdf_file1, pdf_file2, n=(20 ou 40))
+tab_cad(pdf_file1, pdf_file2)
 }
 }
 \keyword{internal}
