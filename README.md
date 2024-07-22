@@ -103,3 +103,7 @@ pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
 pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
 output_file <- "pasta_de_destino/nome_arquivo.xlsx"
 tabela_cad_xlsx(pdf_radoc1, pdf_radoc2, output_file)
+```
+
+
+Enjoy!
