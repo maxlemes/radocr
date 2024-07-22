@@ -161,3 +161,107 @@ resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
   # return(paste("O arquivo", output_file, "foi criado"))
   return("Resumo criado com sucesso.")
 }
+
+
+Aqui está o código em Markdown para o seu README:
+
+```markdown
+# radocr
+
+The `radocr` package provides tools to process PDF files containing faculty RADOCs and generate formatted files (in LaTeX or Excel).
+
+## Installation
+
+To install the package directly from GitHub, you will need `devtools`. If you do not have it installed yet, use:
+
+```r
+install.packages("devtools")
+devtools::install_github("maxlemes/radocr")
+```
+
+## Loading the Package
+
+After installation, load the package with:
+
+```r
+library(radocr)
+```
+
+## Main Functions
+
+### `resumo_tex` and `resumo_xlsx`
+
+The `resumo_tex` and `resumo_xlsx` functions create a file with a summary of the faculty member's activities contained in the two input RADOCs (in PDF). The difference between them is that the `resumo_tex` function generates a LaTeX (.tex) file, while the `resumo_xlsx` function generates an Excel spreadsheet (.xlsx).
+
+#### Description
+
+The function reads the data from the RADOCs in two PDF files and returns a file with the activities contained in the files.
+
+#### Parameters
+
+- **`pdf_file1`**: Path to the first PDF file containing the RADOC.
+- **`pdf_file2`**: Path to the second PDF file containing the RADOC.
+- **`output_file`**: Path where the LaTeX file will be saved. If not provided, the file will be saved in the current folder.
+
+#### Details
+
+- If the `output_file` parameter is not specified, the `.tex` file will be saved in the current working directory.
+
+#### Examples
+
+**Example 1:**
+
+```r
+pdf_radoc1 <- "path_to_file/radoc1.pdf"
+pdf_radoc2 <- "path_to_file/radoc2.pdf"
+output_file <- "path_to_destination/filename.tex"
+resumo_tex(pdf_radoc1, pdf_radoc2, output_file)
+```
+
+**Example 2:**
+
+```r
+pdf_radoc1 <- "path_to_file/radoc1.pdf"
+pdf_radoc2 <- "path_to_file/radoc2.pdf"
+output_file <- "path_to_destination/filename.xlsx"
+resumo_xlsx(pdf_radoc1, pdf_radoc2, output_file)
+```
+
+### `tabela_cad_tex` and `tabela_cad_xlsx`
+
+The `tabela_cad_tex` and `tabela_cad_xlsx` functions create a file with the Cad Table from two PDF files containing RADOCs. The difference between them is that the `tabela_cad_tex` function generates a LaTeX (.tex) file, while the `tabela_cad_xlsx` function generates an Excel spreadsheet (.xlsx).
+
+#### Description
+
+The function reads the data from the RADOCs in two PDF files and returns a file with the filled Cad Table.
+
+#### Parameters
+
+- **`pdf_file1`**: Path to the first PDF file containing the RADOC.
+- **`pdf_file2`**: Path to the second PDF file containing the RADOC.
+- **`output_file`**: Path where the LaTeX file will be saved. If not provided, the file will be saved in the current folder.
+
+#### Details
+
+- If the `output_file` parameter is not specified, the `.tex` file will be saved in the current working directory.
+
+#### Examples
+
+**Example 1:**
+
+```r
+pdf_radoc1 <- "path_to_file/radoc1.pdf"
+pdf_radoc2 <- "path_to_file/radoc2.pdf"
+output_file <- "path_to_destination/filename.tex"
+tabela_cad_tex(pdf_radoc1, pdf_radoc2, output_file)
+```
+
+**Example 2:**
+
+```r
+pdf_radoc1 <- "path_to_file/radoc1.pdf"
+pdf_radoc2 <- "path_to_file/radoc2.pdf"
+output_file <- "path_to_destination/filename.xlsx"
+tabela_cad_xlsx(pdf_radoc1, pdf_radoc2, output_file)
+```
+```
