@@ -3,7 +3,7 @@
 .RData
 .Ruserdata
 inst/doc
+/doc/
 inst/extdata
 /Meta/
 data-raw/
-docs
