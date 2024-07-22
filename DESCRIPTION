@@ -1,6 +1,6 @@
 Package: radocr
 Title: Do RADOC para a Tabela Cad
-Version: 0.1.1
+Version: 1.0.0
 Authors@R: 
     person("Max", "Lemes", , "max@ufg.br", role = c("aut", "cre"))
 Description: Este pacote extrai os dados de 2 arquivos PDF contendo RADOCs
