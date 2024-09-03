@@ -12,8 +12,7 @@
 #' pontuar os dados.
 #' 
 #'
-#' @param pdf_file1,  arquivo PDF com os dados do 1o RADOC
-#' @param pdf_file2,  arquivo PDF com os dados do 2o RADOC
+#' @param pdf_files,  um ou mais arquivos em PDF com RADOCs gerados pelo SICAD+
 #'
 #' @return um dataframe com a Tabela CAD preenchida
 #'
@@ -22,23 +21,23 @@
 #' tab_cad(pdf_file1, pdf_file2)
 #' }
 #' @keywords internal
-tab_cad <- function(pdf_file1, pdf_file2) {
+tab_cad <- function(...) {
+
+  pdf_files <- c(...)
 
   # analisando a carga horária do docente
-  doc <- dados_docente(pdf_file2)
+  doc <- dados_docente(pdf_files[1])
   n <- ifelse(doc[[2]][6] == "20 Horas", 20, 40)
 
 
   # capturando a tabela vazia
   cad <- orig_cad
 
-  files <- c(pdf_file1, pdf_file2)
-
   # montando o dataframe com os dados
-  for (file in files) {
+  for (file in pdf_files) {
     df <- pontua(file)
 
-    cad[, colnames(df)[4]] <- as.numeric(NA)
+    cad[, colnames(df)[4]] <- as.numeric(NA) # Se 2 arquivos são do mesmo ano apenas o último será considerado
 
     lista_itens <- cad[[1]][1:21]
 
@@ -52,15 +51,23 @@ tab_cad <- function(pdf_file1, pdf_file2) {
   # ordenando os anos (caso os arquivos sejam inserido em ordem errada)
   anos <- as.numeric(colnames(cad)[3:ncol(cad)])
   ordem <- order(anos)
-  cad[, 3:ncol(cad)] <- cad[, ordem + 2]
+  cad <-cad[,c(1:2, ordem + 2)]
 
   # somando as pontuacoes dos anos analisados
-  cad[, "Total"] <- rowSums(cad[, 3:ncol(cad)])
-
+  if (ncol(cad) > 3){
+    cad[, "Total"] <- rowSums(cad[, 3:ncol(cad)])
+  } 
+  else {
+    cad[, "Total"] <- cad[, ncol(cad)]
+  }
+  
 
   # calculando os valores de P e S
-  cad[cad[[1]] == "P", ncol(cad)] <- sum(cad[cad[[1]] %in% c("I", "II", "III", "IV", "V"), ncol(cad)])
-  cad[cad[[1]] == "S", ncol(cad)] <- sum(cad[cad[[1]] %in% c("I", "III", "IV", "V"), ncol(cad)])
+  for (j in 3:ncol(cad)){
+    cad[cad[[1]] == "P", j] <- sum(cad[cad[[1]] %in% c("I", "II", "III", "IV","V"), j])
+  cad[cad[[1]] == "S", j] <- sum(cad[cad[[1]] %in% c("I", "III", "IV", "V"), j])
+
+  }
 
   # calculando a nota da CAD
   if (n == 40) {
@@ -70,13 +77,14 @@ tab_cad <- function(pdf_file1, pdf_file2) {
   }
 
   # ajustes finais
+  cad[,ncol(cad)] <- round(cad[,ncol(cad)],1)
   for (i in 3:ncol(cad)) {
     cad[[i]] <- as.character(format(cad[[i]], nsmall = 1))
     cad[[i]] <- stringr::str_replace_all(cad[[i]], "^\\s+|\\s+$", "")
     cad[[i]] <- sub(".", ",", cad[[i]], fixed = TRUE)
   }
 
-  cad[cad[[1]] %in% c("P", "NF", "S"), 3:4] <- "-"
+  cad[cad[[1]] %in% c("NF"), 3:(ncol(cad)-1)] <- "-"
 
   return(cad)
 }

@@ -1,7 +1,7 @@
 #
 # ------------------- Função INTERNA - docente  -------------------------------
 #
-#' Extrai e rganiza dos dados do docente
+#' Extrai e organiza dos dados do docente
 #' 
 #' @description
 #' `docente` lê os dados dos RADOC e cria um dataframe com os dados do
@@ -22,29 +22,49 @@
 #' docente(pdf_file1, pdf_file2)
 #' }
 #' @keywords internal
-docente <- function(pdf_file1, pdf_file2) {
+docente <- function(...) {
+
+  pdf_files <- c(...)
 
   # Coletando os dados do docente
-  doc <- dados_docente(pdf_file1)
+  doc <- dados_docente(pdf_files[1])
 
   # Verificando os afastamentos
-  afast <- cbind(
-    afastamentos(pdf_file1),
-    afastamentos(pdf_file2)[, 2]
-  )
-  afast[, "Total"] <- rowSums(afast[, 2:3])
+  afast <- afastamentos(pdf_files[1])
 
-  # Juntando os afastamentos aos dados do docente
-  if (afast[["Total"]][1] != 0) {
-    aux <- afast[1:2, c(1, 4)]
-    colnames(aux) <- colnames(doc)
-    doc <- rbind(doc, aux)
+  if (length(pdf_files) >1){
+    for (j in 2:length(pdf_files)){
+      afast <- cbind(
+        afast,
+        afastamentos(pdf_files[j])[, 2]
+      )
+    }
+    afast[, "Total"] <- rowSums(afast[, 2:ncol(afast)])
+
+    # Juntando os afastamentos aos dados do docente
+    if (afast[["Total"]][1] != 0) {
+      aux <- afast[1:2, c(1, ncol(afast))]
+      colnames(aux) <- colnames(doc)
+      doc <- rbind(doc, aux)
+    } else {
+      aux <- tibble::tibble(
+        "a" = "Afastamentos",
+        "b" = "Nenhum Registro"
+      )
+      doc <- rbind(doc, aux)
+    }
   } else {
-    aux <- tibble::tibble(
-      "a" = "Afastamentos",
-      "b" = "Nenhum Registro"
-    )
-    doc <- rbind(doc, aux)
+    if (afast[[2]][2] != 0){
+      aux <- afast[1:2, ]
+      colnames(aux) <- colnames(doc)
+      doc <- rbind(doc, aux)
+    } else {
+      aux <- tibble::tibble(
+        "a" = "Afastamentos",
+        "b" = "Nenhum Registro"
+      )
+      doc <- rbind(doc, aux)
+    }
   }
 
   return(doc)

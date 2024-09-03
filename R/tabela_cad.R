@@ -169,22 +169,26 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL) {
 #' tabela_cad_xlsx(pdf_radoc1, pdf_radoc2, output_file)
 #' }
 #' @export
-tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
+tabela_cad_xlsx <- function(...) {
+
+  output_file <- NULL
+
+  pdf_files <- c(...)
 
   # Check PDF files
-  filesCheck(pdf_file1, pdf_file2)
+  filesCheck(pdf_files)
 
   # pegando os dados do docente
-  doc <- docente(pdf_file1, pdf_file2)
+  doc <- docente(pdf_files)
 
   # gerando a tabela da CAD em Latex
-  cad <- tab_cad(pdf_file1, pdf_file2)
+  cad <- tab_cad(pdf_files)
 
   doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
   doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
-  doc[, "c"] <- ""
-  doc[, "d"] <- ""
-  doc[, "e"] <- ""
+  for (j in letters[3:(3+length(pdf_files))]){
+    doc[,j] <- ""
+  }
 
   cad <- cad[c(1, 1:nrow(cad)), ]
   cad[1, ] <- as.list(colnames(cad))
@@ -216,9 +220,11 @@ tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
   )
 
   # colocando a primeira coluna docente em negrito
+  cells <- paste0("A", 1, ":A", nrow(doc))
+
   wb_cad$add_font(
     sheet = "NotasCad",
-    dims = paste0("A", 1, ":A", nrow(doc)),
+    dims = cells,
     name = "Calibri",
     size = "16",
     bold = TRUE
@@ -227,9 +233,11 @@ tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
   # colocando as linhas destacas em negrito
   for (item in c("^Item", "I", "II", "III", "IV", "V", "P", "NF", "S")) {
     i <- which(grepl(paste0("^", item, "$"), cad[[1]]))
+    cells <- paste0("A", i, ":", LETTERS[ncol(cad)], i)
+
     wb_cad$add_font(
       sheet = "NotasCad",
-      dims = paste0("A", i, ":E", i),
+      dims = cells,
       name = "Calibri",
       size = "16",
       bold = TRUE
@@ -239,6 +247,7 @@ tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
   # colorindo as linhas alternadamentes nos dados do docente
   for (i in seq(from = 1, to = nrow(doc) - 2, by = 2)) {
     cells <- paste0("A", i, ":B", i)
+
     wb_cad$add_fill(
       sheet = "NotasCad",
       dims = cells,
@@ -248,7 +257,8 @@ tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
 
   # colorindo as linhas alternadamentes no resto da tabela
   for (i in seq(from = n_cad, to = nrow(cad), by = 2)) {
-    cells <- paste0("A", i, ":E", i)
+    cells <- paste0("A", i, ":", LETTERS[ncol(cad)], i)
+
     wb_cad$add_fill(
       sheet = "NotasCad",
       dims = cells,
@@ -264,11 +274,13 @@ tabela_cad_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
   )
 
   # Ajustando os alinhamentos das colunas
+  i <- which(grepl("^I$", cad[[1]]))
+  cells <- paste0("C", i, ":", LETTERS[ncol(cad)], nrow(cad))
+
   wb_cad$add_cell_style(
     sheet = "NotasCad",
-    i = which(grepl("^I$", cad[[1]])),
-    dims = paste0("C", i, ":E", nrow(cad)),
-    horizontal = "center"
+    dims = cells,
+    horizontal = "right"
   )
 
   if (is.null(output_file)) {
