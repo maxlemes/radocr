@@ -1,35 +1,39 @@
 #
 # ---------------------  Função EXTERNA - tabela_cad_tex  ----------------------
 #
-#' Cria a Tabela Cad (em LaTeX) a partir dos RADOCs
-#' 
-#' @description
-#' Esta função lê os dados do RADOC em 2 arquivos PDF e retorna um
-#' arquivo LaTeX (.tex) com a Tabela Cad preenchida.
+#' Gera uma tabela CAD em formato LaTeX a partir de arquivos RADOC em PDF
 #'
-#' @param pdf_file1 o caminho para o arquivo contendo o 1o RADOC.
-#' @param pdf_file2 o caminho para o arquivo contendo o 2o RADOC.
-#' @param output_file o caminho onde o arquivo de saída deve ser salvo.
-#' 
-#' @details
-#' Em caso de ausência do argumento `output_file` o arquivo será salvo na
-#' pasta atual.
+#' A função `tabela_cad_tex()` gera uma tabela CAD em formato LaTeX usando 
+#' dados contidos em um ou mais arquivos PDF de RADOC. 
+#' Os PDFs devem conter RADOCs gerados pelo SICAD+
 #'
+#' @param ... Um ou mais caminhos para arquivos PDF contendo dados do RADOC. 
+#' Cada PDF deve conter RADOCs gerados pelo SICAD+.
+#' 
+#' @return Um arquivo `tabela_cad.tex` contendo o código LaTeX correspondente à 
+#' tabela CAD gerada a partir dos PDFs fornecidos.
+#' 
 #' @examples
 #' \dontrun{
-#' pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
-#' pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
-#' output_file <- "pasta_de_destino/nome_arquivo.tex"
-#' tabela_cad_tex(pdf_radoc1, pdf_radoc2, output_file)
+#' # Exemplo com um arquivo RADOC
+#' tabela_cad_tex("radoc1.pdf")
+#' 
+#' # Exemplo com múltiplos arquivos RADOC
+#' tabela_cad_tex("radoc1.pdf", "radoc2.pdf")
 #' }
+#' 
 #' @export
-tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL) {
+tabela_cad_tex <- function(...) {
+
+  output_file <- NULL
+
+  pdf_files <- c(...)
 
   # Check PDF files
-  filesCheck(pdf_file1, pdf_file2)
+  filesCheck(pdf_files)
 
   # pegando os dados do docente ------------------------------------------------
-  doc <- docente(pdf_file1, pdf_file2)
+  doc <- docente(pdf_files)
 
   # transforma em uma tabela de latex
   df <- xtable::xtable(doc)
@@ -55,7 +59,7 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL) {
   )
 
   # gerando a tabela da CAD em Latex -------------------------------------------
-  cad <- tab_cad(pdf_file1, pdf_file2)
+  cad <- tab_cad(pdf_files)
 
   df <- xtable::xtable(cad)
 
@@ -147,29 +151,28 @@ tabela_cad_tex <- function(pdf_file1, pdf_file2, output_file=NULL) {
 #
 # --------------------  Função EXTERNA - tabela_cad_xlsx  ----------------------
 #
-#' Cria a Tabela Cad (em Excel) a partir dos RADOCs
-#' 
-#' @description
-#' Esta função lê os dados do RADOC em 2 arquivos PDF e retorna um
-#' arquivo Excel (.xlsx) com a Tabela Cad preenchida.
+#' Gera uma tabela CAD em formato Excel a partir de arquivos RADOC em PDF
 #'
-#' @param pdf_file1 o caminho para o arquivo contendo o 1o RADOC.
-#' @param pdf_file2 o caminho para o arquivo contendo o 2o RADOC.
-#' @param output_file o caminho onde o arquivo de saída deve ser salvo.
-#' 
-#' @details
-#' Em caso de ausência do argumento `output_file` o arquivo será salvo na
-#' pasta atual.
+#' A função `tabela_cad()` gera uma tabela CAD em formato Excel usando 
+#' dados contidos em um ou mais arquivos PDF de RADOC.
+#' Os PDFs devem conter RADOCs gerados pelo SICAD+.
 #'
+#' @param ... Um ou mais caminhos para arquivos PDF contendo dados do RADOC. 
+#' Cada PDF deve conter RADOCs gerados pelo SICAD+.
+#' 
+#' @return Um arquivo `tabela_cad.xlsx` contendo a tabela CAD gerada a partir dos PDFs fornecidos.
+#' 
 #' @examples
 #' \dontrun{
-#' pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
-#' pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
-#' output_file <- "pasta_de_destino/nome_arquivo.xlsx"
-#' tabela_cad_xlsx(pdf_radoc1, pdf_radoc2, output_file)
+#' # Exemplo com um arquivo RADOC
+#' tabela_cad("radoc1.pdf")
+#' 
+#' # Exemplo com múltiplos arquivos RADOC
+#' tabela_cad("radoc1.pdf", "radoc2.pdf")
 #' }
+#' 
 #' @export
-tabela_cad_xlsx <- function(...) {
+tabela_cad <- function(...) {
 
   output_file <- NULL
 
@@ -269,9 +272,17 @@ tabela_cad_xlsx <- function(...) {
   # ajustando a largura das colunas
   wb_cad$set_col_widths(
     sheet = "NotasCad",
-    cols = 1:5,
+    cols = 1:2,
     widths = "auto"
   )
+
+    # ajustando a largura das colunas
+    wb_cad$set_col_widths(
+      sheet = "NotasCad",
+      cols = 3:8,
+      widths = 8
+    )
+  
 
   # Ajustando os alinhamentos das colunas
   i <- which(grepl("^I$", cad[[1]]))
@@ -282,6 +293,8 @@ tabela_cad_xlsx <- function(...) {
     dims = cells,
     horizontal = "right"
   )
+
+  wb_cad <- resumo_xlsx(wb_cad, pdf_files)
 
   if (is.null(output_file)) {
     output_file <- file.path(getwd(), "tabela_cad.xlsx")

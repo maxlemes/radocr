@@ -2,30 +2,30 @@
 % Please edit documentation in R/tabela_cad.R
 \name{tabela_cad_tex}
 \alias{tabela_cad_tex}
-\title{Cria a Tabela Cad (em LaTeX) a partir dos RADOCs}
+\title{Gera uma tabela CAD em formato LaTeX a partir de arquivos RADOC em PDF}
 \usage{
-tabela_cad_tex(pdf_file1, pdf_file2, output_file = NULL)
+tabela_cad_tex(...)
 }
 \arguments{
-\item{pdf_file1}{o caminho para o arquivo contendo o 1o RADOC.}
-
-\item{pdf_file2}{o caminho para o arquivo contendo o 2o RADOC.}
-
-\item{output_file}{o caminho onde o arquivo de saída deve ser salvo.}
+\item{...}{Um ou mais caminhos para arquivos PDF contendo dados do RADOC.
+Cada PDF deve conter RADOCs gerados pelo SICAD+.}
+}
+\value{
+Um arquivo \code{tabela_cad.tex} contendo o código LaTeX correspondente à
+tabela CAD gerada a partir dos PDFs fornecidos.
 }
 \description{
-Esta função lê os dados do RADOC em 2 arquivos PDF e retorna um
-arquivo LaTeX (.tex) com a Tabela Cad preenchida.
-}
-\details{
-Em caso de ausência do argumento \code{output_file} o arquivo será salvo na
-pasta atual.
+A função \code{tabela_cad_tex()} gera uma tabela CAD em formato LaTeX usando
+dados contidos em um ou mais arquivos PDF de RADOC.
+Os PDFs devem conter RADOCs gerados pelo SICAD+
 }
 \examples{
 \dontrun{
-pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
-pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
-output_file <- "pasta_de_destino/nome_arquivo.tex"
-tabela_cad_tex(pdf_radoc1, pdf_radoc2, output_file)
+# Exemplo com um arquivo RADOC
+tabela_cad_tex("radoc1.pdf")
+
+# Exemplo com múltiplos arquivos RADOC
+tabela_cad_tex("radoc1.pdf", "radoc2.pdf")
 }
+
 }

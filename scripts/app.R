@@ -19,15 +19,18 @@ arquivos <- paste0('data-raw/',files[-c(1,10)])
 # Testando os arquivos
 # filesCheck(arquivos)
 
-pdf_file1 <- arquivos[6]
-pdf_file2 <- arquivos[7]
+pdf_file1 <- arquivos[1]
+pdf_file2 <- arquivos[2]
 pdf_file3 <- arquivos[8]
+
+pdf_files <- c(pdf_file1, pdf_file2)
+file <- pdf_files[1]
 
 output_file <- NULL
 tabela_cad_tex(pdf_file1, pdf_file2)
 tinytex::latexmk("tabela_cad.tex")
 
-tabela_cad_xlsx(pdf_file2, pdf_file3)
+tabela_cad(pdf_file1, pdf_file2)
 
 resumo_tex(pdf_file1, pdf_file2)
 tinytex::latexmk("resumo.tex")

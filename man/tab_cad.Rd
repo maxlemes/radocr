@@ -4,26 +4,27 @@
 \alias{tab_cad}
 \title{Extrai os dados e retorna um dataframe com a Tabela da CAD}
 \usage{
-tab_cad(pdf_file1, pdf_file2)
+tab_cad(...)
 }
 \arguments{
-\item{pdf_file1, }{arquivo PDF com os dados do 1o RADOC}
-
-\item{pdf_file2, }{arquivo PDF com os dados do 2o RADOC}
+\item{pdf_files}{Um ou mais arquivos em PDF contendo RADOCs gerados pelo
+SICAD+.}
 }
 \value{
-um dataframe com a Tabela CAD preenchida
+Um dataframe contendo a Tabela CAD preenchida.
 }
 \description{
-Função que extrai os dados dos RADOC, usa o AnexoII para pontuar os dados e
-retorna um dataframe com a Tabela da CAD preeenchida.
+A função \code{tab_cad()} extrai os dados dos RADOC, utiliza o Anexo II para
+pontuar
+as informações e retorna um dataframe com a Tabela CAD preenchida.
 }
 \details{
-Essa função usa duas funções internas uma para coletar os dados e outra para
-pontuar os dados.
+Esta função utiliza duas funções internas: uma para coletar os dados e outra
+para pontuar as informações.
 }
 \examples{
 \dontrun{
+# Exemplo de uso da função tab_cad
 tab_cad(pdf_file1, pdf_file2)
 }
 }

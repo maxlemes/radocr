@@ -2,29 +2,31 @@
 % Please edit documentation in R/docente.R
 \name{docente}
 \alias{docente}
-\title{Extrai e rganiza dos dados do docente}
+\title{Extrai e organiza dados do docente}
 \usage{
-docente(pdf_file1, pdf_file2)
+docente(...)
 }
 \arguments{
-\item{pdf_file1}{arquivo PDF com os dados do 1o RADOC}
+\item{pdf_file1}{Um arquivo PDF contendo os dados do 1º RADOC.}
 
-\item{pdf_file2}{arquivo PDF com os dados do 2o RADOC}
+\item{pdf_file2}{Um arquivo PDF contendo os dados do 2º RADOC.}
 }
 \value{
-um dataframe com os dados do docente
+Um dataframe com os dados do docente, incluindo informações de
+afastamento.
 }
 \description{
-\code{docente} lê os dados dos RADOC e cria um dataframe com os dados do
-docente incluindo os afastamentos do mesmo no período.
+A função \code{docente()} lê os dados dos RADOC e cria um dataframe contendo as
+informações do docente, incluindo os afastamentos no período.
 }
 \details{
-Primeiramente \code{docente} lê os arquivos PDF e extrai os dados pessoais do
-docente, depois extrai os dados de afastamento e pos ultimo junta toda
-informação em um dataframe
+Primeiramente, a função lê os arquivos PDF e extrai os dados pessoais do
+docente. Em seguida, ela extrai os dados de afastamento e, por último, junta
+todas as informações em um dataframe.
 }
 \examples{
 \dontrun{
+# Exemplo de uso da função docente
 docente(pdf_file1, pdf_file2)
 }
 }

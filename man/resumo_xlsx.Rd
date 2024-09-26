@@ -2,30 +2,24 @@
 % Please edit documentation in R/resumo.R
 \name{resumo_xlsx}
 \alias{resumo_xlsx}
-\title{Cria um resumo (em Excel) das atividades docentes no período}
+\title{Acrescenta o resumo das atividades docentes na tabela criada pela função
+tabela_cad}
 \usage{
-resumo_xlsx(pdf_file1, pdf_file2, output_file = NULL)
+resumo_xlsx(wb_cad, pdf_files)
 }
 \arguments{
-\item{pdf_file1}{o caminho para o arquivo contendo o 1o RADOC.}
+\item{wb_cad}{planilha criada pela função tabela_cad.}
 
-\item{pdf_file2}{o caminho para o arquivo contendo o 2o RADOC.}
-
-\item{output_file}{o caminho onde o arquivo de saída deve ser salvo.}
+\item{pdf_files}{o caminho para os arquivos contendo os RADOCs.}
 }
 \description{
-Esta função lê os dados do RADOC em 2 arquivos PDF cria uma planilha (em
-Excel) a partir dos RADOCs com o resumo das atividades do docente avaliado
-}
-\details{
-Em caso de ausência do argumento \code{output_file} o arquivo será salvo na
-pasta atual.
+Esta função lê os dados do RADOC em 2 arquivos e adiciona o resumo na
+planilha criada pela função tabela_cad
 }
 \examples{
  \dontrun{
-pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
-pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
-output_file <- "pasta_de_destino/nome_arquivo.xlsx"
-resumo_xlsx(pdf_radoc1, pdf_radoc2, output_file)
+wb_cad <- "planilha com a tabela cad"
+pdf_files <- "arquivos pdf com os radocs"
+resumo_xlsx(wb_cad, pdf_files)
 }
 }

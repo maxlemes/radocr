@@ -1,43 +1,53 @@
 #
 # ---------------------  Função EXTERNA - resumo_tex  ----------------------
 #
-#' Cria um resumo (em LaTeX) das atividades docentes no período
-#' 
-#' @description
-#' Esta função lê os dados do RADOC em 2 arquivos PDF e retorna um
-#' arquivo LaTeX (.tex) com o resumo das atividades do docente
+#' Gera um resumo em LaTeX das atividades docentes a partir de arquivos RADOC
 #'
-#' @param pdf_file1 o caminho para o arquivo contendo o 1o RADOC.
-#' @param pdf_file2 o caminho para o arquivo contendo o 2o RADOC.
-#' @param output_file o caminho onde o arquivo de saída deve ser salvo.
-#' 
+#' @description
+#' A função `resumo_tex()` lê os dados de um ou mais arquivos PDF de RADOC e 
+#' gera um arquivo LaTeX (.tex) contendo um resumo das atividades docentes no 
+#' período. É útil para criar relatórios personalizados de atividades docentes.
+#'
+#' @param ... Um ou mais caminhos para arquivos PDF contendo os RADOCs do 
+#' docente.
+#'
 #' @details
-#' Em caso de ausência do argumento `output_file` o arquivo será salvo na
-#' pasta atual.
+#' Você pode fornecer quantos arquivos de RADOC quiser, e a função os combinará 
+#' em um único documento LaTeX. Os arquivos devem ser gerados pelo sistema SICAD+.
+#'
+#' @return Um arquivo `resumo.tex` que contém o código LaTeX do resumo das 
+#' atividades do docente.
 #'
 #' @examples
 #' \dontrun{
+#' # Caminho para os arquivos RADOC
 #' pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
 #' pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
-#' output_file <- "pasta_de_destino/nome_arquivo.tex"
-#' resumo_tex(pdf_radoc1, pdf_radoc2, output_file)
+#'
+#' # Gera o arquivo LaTeX com o resumo
+#' resumo_tex(pdf_radoc1, pdf_radoc2)
 #' }
+#'
 #' @export
-resumo_tex <- function(pdf_file1, pdf_file2, output_file=NULL) {
+resumo_tex <- function(...) {
+
+  output_file <- NULL
+
+  pdf_files <- c(...)
 
   # Check PDF files
-  filesCheck(pdf_file1, pdf_file2)
+  filesCheck(pdf_files)
 
   # pegando os dados do docente ------------------------------------------------
-  doc <- docente(pdf_file1, pdf_file2)[[2]][1]
+  doc <- docente(pdf_files)[[2]][1]
 
   # gerando o resumo dos dados em Latex ----------------------------------------
   
-  files <- c(pdf_file1, pdf_file2)
+  pdf_files <- c(...)
   titulo <- NULL
   resumo <- NULL
 
-  for (file in files) {
+  for (file in pdf_files) {
 
     df <- pontua(file)
 
@@ -92,39 +102,33 @@ resumo_tex <- function(pdf_file1, pdf_file2, output_file=NULL) {
     "\\definecolor{lightgray}{gray}{0.9}",
     "\\rowcolors{1}{white}{lightgray}",
     "",
-    "\\begin{document}",
-    "\\thispagestyle{empty}",
-    "",
-    "\\begin{center}",
-    "  \\textbf{UNIVERSIDADE FEDERAL DE GOI\u00c1S\\\\",
-    "  INSTITUTO DE MATEM\u00c1TICA E ESTAT\u00cdSTICA}",
-    "\\end{center}",
-    "",
-    "\\noindent\\textbf{Docente:}", doc, 
-    "",
-    "\\begin{center}",
-    "\\large \\textbf{", titulo[[1]], "}",
-    "\\end{center}",
-    "\\vspace{-0.5cm}",
-    resumo[[1]],
-    "",
-    "\\newpage",
-    "",
-    "\\begin{center}",
-    "  \\textbf{UNIVERSIDADE FEDERAL DE GOI\u00c1S\\\\",
-    "  INSTITUTO DE MATEM\u00c1TICA E ESTAT\u00cdSTICA}",
-    "\\end{center}",
-    "",
-    "\\noindent\\textbf{Docente:}", doc, 
-    "",
-    "\\begin{center}",
-    "\\large \\textbf{", titulo[[2]], "}",
-    "\\end{center}",
-    "\\vspace{-0.5cm}",
-    resumo[[2]],
-    "",
-    "\\end{document}"
-  )
+    "\\begin{document}")
+  
+    for (i in 1:length(pdf_files)){
+      aux <- c(
+        "\\thispagestyle{empty}",
+        "",
+        "\\begin{center}",
+        "  \\textbf{UNIVERSIDADE FEDERAL DE GOI\u00c1S\\\\",
+        "  INSTITUTO DE MATEM\u00c1TICA E ESTAT\u00cdSTICA}",
+        "\\end{center}",
+        "",
+        "\\noindent\\textbf{Docente:}", doc, 
+        "",
+        "\\begin{center}",
+        "\\large \\textbf{", titulo[[i]], "}",
+        "\\end{center}",
+        "\\vspace{-0.5cm}",
+        resumo[[i]],
+        "",
+        "\\newpage"
+      )
+      latex_content <- append(latex_content, aux)
+    }
+    latex_content <- append(
+      latex_content, 
+      "\\end{document}"
+    )
 
   # definindo o arquivo de saida padrão
   if (is.null(output_file)) {
@@ -142,51 +146,42 @@ resumo_tex <- function(pdf_file1, pdf_file2, output_file=NULL) {
 }
 
 #
-# --------------------  Função EXTERNA - resumo_xlsx  ----------------------
+# --------------------  Função INTERNA - resumo_xlsx  ----------------------
 #
-#' Cria um resumo (em Excel) das atividades docentes no período
+#' Acrescenta o resumo das atividades docentes na tabela criada pela função
+#' tabela_cad
 #' 
 #' @description
-#' Esta função lê os dados do RADOC em 2 arquivos PDF cria uma planilha (em
-#' Excel) a partir dos RADOCs com o resumo das atividades do docente avaliado
+#' Esta função lê os dados do RADOC em 2 arquivos e adiciona o resumo na
+#' planilha criada pela função tabela_cad
 #'
-#' @param pdf_file1 o caminho para o arquivo contendo o 1o RADOC.
-#' @param pdf_file2 o caminho para o arquivo contendo o 2o RADOC.
-#' @param output_file o caminho onde o arquivo de saída deve ser salvo.
-#' 
-#' @details
-#' Em caso de ausência do argumento `output_file` o arquivo será salvo na
-#' pasta atual.
+#' @param wb_cad planilha criada pela função tabela_cad.
+#' @param pdf_files o caminho para os arquivos contendo os RADOCs.
 #'
 #' @examples
 #'  \dontrun{
-#' pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
-#' pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
-#' output_file <- "pasta_de_destino/nome_arquivo.xlsx"
-#' resumo_xlsx(pdf_radoc1, pdf_radoc2, output_file)
+#' wb_cad <- "planilha com a tabela cad"
+#' pdf_files <- "arquivos pdf com os radocs"
+#' resumo_xlsx(wb_cad, pdf_files)
 #' }
 #' @export
-resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
+resumo_xlsx <- function(wb_cad, pdf_files) {
 
-  # Check PDF files
-  filesCheck(pdf_file1, pdf_file2)
+   # pegando os dados do docente
+   doc <- docente(pdf_files)
 
-  # colocando os arquivos num vetor
-  files <- c(pdf_file1, pdf_file2)
+   # criando linhas dicionais
+   doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
+   doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
+   doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
+   doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
 
-  # atribuições iniciais
-  titulo    <- NULL
-  resumo    <- NULL
-  cabecalho <- NULL
-
-  ## Criando uma planilha vazia
-  wb_res <- openxlsx2::wb_workbook()
+   # criando colunas adicionais
+   doc[, "c"] <- as.integer("")
+   doc[, "d"] <- as.numeric("")
   
-  for (file in files) {
+  for (file in pdf_files) {
 
-    # pegando os dados do docente
-    doc <- docente(pdf_file1, pdf_file2)[1,]
-  
     # capturando os dados
     df <- pontua(file)
 
@@ -198,16 +193,6 @@ resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
     colnames(df)[4] <- 'Pontos'
     cabecalho <- colnames(df)
 
-    # criando linhas dicionais
-    doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
-    doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
-    doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
-    doc[(nrow(doc) + 1), ] <- as.list(c("", ""))
-
-    # criando colunas adicionais
-    doc[, "c"] <- as.integer("")
-    doc[, "d"] <- as.numeric("")
-
     # igualando os nomes
     colnames(doc) <- colnames(df)
 
@@ -218,10 +203,10 @@ resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
     n_res <- which(stringr::str_detect(df[[1]], paste0("^I")))[[1]]
 
     # adicionando uma aba
-    wb_res$add_worksheet(sheet = ano)
+    wb_cad$add_worksheet(sheet = ano)
 
     # adicionando dos dados na planilha
-    wb_res$add_data(
+    wb_cad$add_data(
       sheet = ano,
       df,
       na.strings = '',
@@ -230,27 +215,27 @@ resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
     )
 
     # adicionando o titulo na planilha
-    wb_res$add_data(
+    wb_cad$add_data(
       sheet = ano,
       titulo,
-      dims = 'B3',
+      dims = 'B11',
       na.strings = '',
       row_names = FALSE,
       col_names = FALSE
     )
 
       # adicionando o cabeçalho na planilha
-      wb_res$add_data(
+      wb_cad$add_data(
         sheet = ano,
         cabecalho,
-        dims = 'A5:D5',
+        dims = 'A13:D13',
         na.strings = '',
         row_names = FALSE,
         col_names = FALSE
       )
 
     # editando a fonte da planilha
-    wb_res$add_font(
+    wb_cad$add_font(
       sheet =  ano,
       dims = "A1:Z80",
       name = "Calibri",
@@ -258,7 +243,7 @@ resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
     )
 
     # colocando a primeira coluna docente em negrito
-    wb_res$add_font(
+    wb_cad$add_font(
       sheet =  ano,
       dims = paste0("A", 1, ":A", nrow(doc)),
       name = "Calibri",
@@ -267,8 +252,8 @@ resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
     )
 
     # colocando as linhas destacas em negrito
-    for (i in c(3,5)) {
-      wb_res$add_font(
+    for (i in c(11,13)) {
+      wb_cad$add_font(
         sheet = ano,
         dims = paste0("A", i, ":D", i),
         name = "Calibri",
@@ -280,7 +265,7 @@ resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
     # colorindo as linhas alternadamentes no resto da tabela
     for (i in seq(from = n_res, to = nrow(df), by = 2)) {
       cells <- paste0("A", i, ":D", i)
-      wb_res$add_fill(
+      wb_cad$add_fill(
         sheet =  ano,
         dims = cells,
         color = openxlsx2::wb_color(hex = "#d3d3d3")
@@ -288,23 +273,21 @@ resumo_xlsx <- function(pdf_file1, pdf_file2, output_file=NULL) {
     }
 
     # ajustando a largura das colunas
-    wb_res$set_col_widths(
+    wb_cad$set_col_widths(
       sheet =  ano,
-      cols = 1:4,
+      cols = 1:2,
       widths = "auto"
     )
-  }
 
-  if (is.null(output_file)) {
-    output_file <- file.path(getwd(), "resumo.xlsx")
+       # ajustando a largura das colunas
+       wb_cad$set_col_widths(
+        sheet =  ano,
+        cols = 3:8,
+        widths = 8
+      )
   }
-
-  # salvando a tabela no discos
-  openxlsx2::wb_save(wb_res,
-    file = output_file, 
-    overwrite = TRUE)
 
   # return(paste("O arquivo", output_file, "foi criado"))
-  return("Resumo criado com sucesso.")
+  return(wb_cad)
 }
 

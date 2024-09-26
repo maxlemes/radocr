@@ -2,25 +2,31 @@
 % Please edit documentation in R/utils.R
 \name{filesCheck}
 \alias{filesCheck}
-\title{Função que faz 3 testes nos arquivos}
+\title{Realiza verificações em arquivos RADOC}
 \usage{
-filesCheck(pdf_file1, pdf_file2)
+filesCheck(...)
 }
 \arguments{
-\item{pdf_file1, pdf_file2}{dois arquivos em pdf}
+\item{...}{Um ou mais caminhos para arquivos PDF contendo dados do RADOC.
+Cada PDF deve conter RADOCs gerados pelo SICAD+.}
 }
 \value{
-Uma mensagem com a avaliação feita
+Uma mensagem indicando se os arquivos passaram nos testes.
 }
 \description{
+A função \code{filesCheck()} faz três testes em um ou mais arquivos PDF de RADOC,
+que devem ter sido gerados pelo SICAD+:
+}
+\details{
 \enumerate{
-\item Testa se o arquivo é um RADOC do SICAD+
-\item Testa se os dois RADOCs são do memso docente
-\item Testa se os dois RADOCs são de anos distintos
+\item Verifica se cada arquivo é um RADOC válido do SICAD+.
+\item Verifica se os RADOCs fornecidos pertencem ao mesmo docente.
+\item Verifica se os RADOCs fornecidos são de anos diferentes.
 }
 }
 \examples{
 \dontrun{
-filesCheck(pdf_file1, pdf_file2)
+# Exemplo com dois arquivos RADOC
+filesCheck("radoc1.pdf", "radoc2.pdf")
 }
 }

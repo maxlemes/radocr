@@ -2,6 +2,6 @@
 
 export(resumo_tex)
 export(resumo_xlsx)
+export(tabela_cad)
 export(tabela_cad_tex)
-export(tabela_cad_xlsx)
 export(to_title_case_pt_br)

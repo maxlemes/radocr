@@ -1,11 +1,11 @@
-radocr: Pacote para Tabelas CAD
-================
+---
+title: "radocr: Pacote para Tabelas CAD"
+output: github_document
+---
 
 # radocr
 
-`radocr` é um pacote R que facilita a geração de tabelas CAD a partir de
-dados contidos em arquivos PDF de RADOC, que são gerados pelo sistema
-SICAD+. O pacote contém duas funções principais:
+`radocr` é um pacote R que facilita a geração de tabelas CAD a partir de dados contidos em arquivos PDF de RADOC, que são gerados pelo sistema SICAD+. O pacote contém duas funções principais:
 
 - `tabela_cad()`: Gera uma tabela CAD em formato Excel.
 - `tabela_cad_tex()`: Gera uma tabela CAD em formato LaTeX.
@@ -14,7 +14,7 @@ SICAD+. O pacote contém duas funções principais:
 
 Você pode instalar o pacote diretamente do GitHub:
 
-``` r
+```r
 # install.packages("devtools")
 devtools::install_github("maxlemes/radocr")
 ```
@@ -22,6 +22,7 @@ devtools::install_github("maxlemes/radocr")
 ## Uso
 
 Abaixo estão os exemplos de como usar as funções do pacote `radocr`.
+
 
 A função `tabela_cad()` gera uma tabela CAD em formato Excel usando
 dados contidos em um ou mais arquivos PDF de RADOC gerados pelo SICAD+.

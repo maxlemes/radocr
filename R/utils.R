@@ -89,7 +89,7 @@ tabtibble <- function(tabela) { #---  tabtibble  -------------------------------
 #' @examples
 #' to_title_case_pt_br('A VIDA É COMO ELA É')
 #'
-## You must have package stringr installed.
+# You must have package stringr installed.
 to_title_case_pt_br <- function(texto) {#---  to_title_case_pt_br  -------------
 
   texto <- stringr::str_to_title(texto)
@@ -132,19 +132,24 @@ to_title_case_pt_br <- function(texto) {#---  to_title_case_pt_br  -------------
   return(texto)
 }
 
-#' Função que faz 3 testes nos arquivos
+#' Realiza verificações em arquivos RADOC
 #'
-#' 1) Testa se o arquivo é um RADOC do SICAD+
-#' 2) Testa se os dois RADOCs são do mesmo docente
-#' 3) Testa se os dois RADOCs são de anos distintos
+#' A função `filesCheck()` faz três testes em um ou mais arquivos PDF de RADOC, 
+#' que devem ter sido gerados pelo SICAD+:
+#' 
+#' 1) Verifica se cada arquivo é um RADOC válido do SICAD+.
+#' 2) Verifica se os RADOCs fornecidos pertencem ao mesmo docente.
+#' 3) Verifica se os RADOCs fornecidos são de anos diferentes.
 #'
-#' @param pdf_file1,pdf_file2 dois arquivos em pdf
-#'
-#' @return Uma mensagem com a avaliação feita
-#'
+#' @param ... Um ou mais caminhos para arquivos PDF contendo dados do RADOC. 
+#' Cada PDF deve conter RADOCs gerados pelo SICAD+.
+#' 
+#' @return Uma mensagem indicando se os arquivos passaram nos testes.
+#' 
 #' @examples
 #' \dontrun{
-#' filesCheck(pdf_file1, pdf_file2)
+#' # Exemplo com dois arquivos RADOC
+#' filesCheck("radoc1.pdf", "radoc2.pdf")
 #' }
 filesCheck <- function(...) {#---  filesCheck  ----------------
 
@@ -161,7 +166,7 @@ filesCheck <- function(...) {#---  filesCheck  ----------------
     if (!grepl("^Sistema de Consulta das Atividades Docente", tabela[1])) {
       stop(paste(
         "O arquivo", files[i],
-        "não parece ser um RADOC gerado pelo SICAD+."
+        "n\u00e3o parece ser um RADOC gerado pelo SICAD+."
       ))
     }
 
@@ -173,7 +178,7 @@ filesCheck <- function(...) {#---  filesCheck  ----------------
 
     if (i > 1) {
       if (aux[i] != aux[i - 1]) {
-        stop("Os RADOCs não são do mesmo docente.")
+        stop("Os RADOCs n\\u00e3o s\\u00e3o do mesmo docente.")
       }
     }
 

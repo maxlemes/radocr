@@ -10,9 +10,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<meta name="author" content="Seu Nome" />
+<meta name="author" content="Max Lemes" />
 
-<meta name="date" content="2024-07-21" />
+<meta name="date" content="2024-09-25" />
 
 <title>Instalação do R, RStudio, e Pacote radocr</title>
 
@@ -62,7 +62,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -340,8 +340,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Instalação do R, RStudio, e Pacote
 radocr</h1>
-<h4 class="author">Seu Nome</h4>
-<h4 class="date">2024-07-21</h4>
+<h4 class="author">Max Lemes</h4>
+<h4 class="date">2024-09-25</h4>
 
 
 
@@ -392,11 +392,12 @@ Para instalar o RStudio:</p>
 <li>Siga as instruções do instalador.</li>
 </ol>
 </div>
-<div id="radocr" class="section level1">
-<h1>radocr</h1>
+<div id="radocr" class="section level2">
+<h2>radocr</h2>
 <p>O pacote <code>radocr</code> fornece ferramentas para processar
 arquivos PDF contendo os RADOCs dos docentes e gerar arquivos formatados
 (em LaTeX ou e Excel).</p>
+</div>
 <div id="instalação-do-pacote-radocr" class="section level2">
 <h2>Instalação do Pacote <code>radocr</code></h2>
 <p>Para instalar o pacote <code>radocr</code> a partir do GitHub, você
@@ -405,7 +406,6 @@ instalação de pacotes diretamente do GitHub. Abra o RStudio e execute os
 comandos abaixo:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Instale o pacote devtools, se ainda não tiver instalado</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span></code></pre></div>
-</div>
 </div>
 <div id="carregue-o-devtools" class="section level1">
 <h1>Carregue o devtools</h1>
@@ -421,96 +421,28 @@ comandos abaixo:</p>
 </div>
 <div id="funções-principais" class="section level2">
 <h2>Funções Principais</h2>
-<div id="resumo_tex-e-resumo_xlsx" class="section level3">
-<h3><code>resumo_tex</code> e <code>resumo_xlsx</code></h3>
-<p>As funções <code>resumo_tex</code> e <code>resumo_xlsx</code> criam
-um arquivo com o resumo das atividades do docente contidas nos dois
-RADOCs inserido (em PDF). A diferença entre elas é que enquanto a função
-<code>resumo_tex</code> gera um arquivo LaTeX (.tex) a função
-<code>resumo_xlsx</code> gera uma planilha em Excel (.xlsx).</p>
-<div id="descrição" class="section level4">
-<h4>Descrição</h4>
-<p>A função lê os dados dos RADOCs em dois arquivos PDF e retorna um
-arquivo com as atividades contidas nos arquivos.</p>
-</div>
-<div id="parâmetros" class="section level4">
-<h4>Parâmetros</h4>
-<ul>
-<li><strong><code>pdf_file1</code></strong>: Caminho para o primeiro
-arquivo PDF contendo o RADOC.</li>
-<li><strong><code>pdf_file2</code></strong>: Caminho para o segundo
-arquivo PDF contendo o RADOC.</li>
-<li><strong><code>output_file</code></strong>: Caminho onde o arquivo
-LaTeX será salvo. Se não fornecido, o arquivo será salvo na pasta
-atual.</li>
-</ul>
-</div>
-<div id="detalhes" class="section level4">
-<h4>Detalhes</h4>
-<ul>
-<li>Se o parâmetro <code>output_file</code> não for especificado, o
-arquivo <code>.tex</code> será salvo no diretório atual de
-trabalho.</li>
-</ul>
-</div>
-<div id="exemplos" class="section level4">
-<h4>Exemplos</h4>
-<p><strong>Exemplo 1:</strong></p>
+<div id="tabela_cad" class="section level3">
+<h3><code>tabela_cad()</code></h3>
+<p>A função <code>tabela_cad()</code> gera uma tabela CAD em formato
+Excel usando dados contidos em um ou mais arquivos PDF de RADOC gerados
+pelo SICAD+.</p>
+<div id="exemplo-de-uso" class="section level4">
+<h4>Exemplo de Uso</h4>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>pdf_radoc1 <span class="ot">&lt;-</span> <span class="st">&quot;pasta_do_arquivo/radoc1.pdf&quot;</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>pdf_radoc2 <span class="ot">&lt;-</span> <span class="st">&quot;pasta_do_arquivo/radoc2.pdf&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>output_file <span class="ot">&lt;-</span> <span class="st">&quot;pasta_de_destino/nome_arquivo.tex&quot;</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">resumo_tex</span>(pdf_radoc1, pdf_radoc2, output_file)</span></code></pre></div>
-<p><strong>Exemplo 2:</strong></p>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">tabela_cad</span>(pdf_radoc1, pdf_radoc2)</span></code></pre></div>
+</div>
+</div>
+<div id="tabela_cad_tex" class="section level3">
+<h3><code>tabela_cad_tex</code></h3>
+<p>A função <code>tabela_cad_tex()</code> gera uma tabela CAD em formato
+LaTeX. Ela extrai dados de um ou mais arquivos PDF de RADOC e formata-os
+em um código LaTeX.</p>
+<div id="exemplo-de-uso-1" class="section level4">
+<h4>Exemplo de Uso</h4>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>pdf_radoc1 <span class="ot">&lt;-</span> <span class="st">&quot;pasta_do_arquivo/radoc1.pdf&quot;</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>pdf_radoc2 <span class="ot">&lt;-</span> <span class="st">&quot;pasta_do_arquivo/radoc2.pdf&quot;</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>output_file <span class="ot">&lt;-</span> <span class="st">&quot;pasta_de_destino/nome_arquivo.xlsx&quot;</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">resumo_xlsx</span>(pdf_radoc1, pdf_radoc2, output_file)</span></code></pre></div>
-</div>
-</div>
-<div id="tabela_cad_tex-e-tabela_cad_xlsx" class="section level3">
-<h3><code>tabela_cad_tex</code> e <code>tabela_cad_xlsx</code></h3>
-<p>As funções <code>tabela_cad_tex</code> e <code>tabela_cad_xlsx</code>
-criam um arquivo com a Tabela Cad a partir de dois arquivos PDF contendo
-RADOCs. A diferença entre elas é que enquanto a função
-<code>tabela_cad_tex</code> gera um arquivo LaTeX (.tex) a função
-<code>tabela_cad_xlsx</code> gera uma planilha em Excel (.xlsx).</p>
-<div id="descrição-1" class="section level4">
-<h4>Descrição</h4>
-<p>A função lê os dados dos RADOCs em dois arquivos PDF e retorna um
-arquivo com a Tabela Cad preenchida.</p>
-</div>
-<div id="parâmetros-1" class="section level4">
-<h4>Parâmetros</h4>
-<ul>
-<li><strong><code>pdf_file1</code></strong>: Caminho para o primeiro
-arquivo PDF contendo o RADOC.</li>
-<li><strong><code>pdf_file2</code></strong>: Caminho para o segundo
-arquivo PDF contendo o RADOC.</li>
-<li><strong><code>output_file</code></strong>: Caminho onde o arquivo
-LaTeX será salvo. Se não fornecido, o arquivo será salvo na pasta
-atual.</li>
-</ul>
-</div>
-<div id="detalhes-1" class="section level4">
-<h4>Detalhes</h4>
-<ul>
-<li>Se o parâmetro <code>output_file</code> não for especificado, o
-arquivo <code>.tex</code> será salvo no diretório atual de
-trabalho.</li>
-</ul>
-</div>
-<div id="exemplos-1" class="section level4">
-<h4>Exemplos</h4>
-<p><strong>Exemplo 1:</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>pdf_radoc1 <span class="ot">&lt;-</span> <span class="st">&quot;pasta_do_arquivo/radoc1.pdf&quot;</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>pdf_radoc2 <span class="ot">&lt;-</span> <span class="st">&quot;pasta_do_arquivo/radoc2.pdf&quot;</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>output_file <span class="ot">&lt;-</span> <span class="st">&quot;pasta_de_destino/nome_arquivo.tex&quot;</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">tabela_cad_tex</span>(pdf_radoc1, pdf_radoc2, output_file)</span></code></pre></div>
-<p><strong>Exemplo 2:</strong></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>pdf_radoc1 <span class="ot">&lt;-</span> <span class="st">&quot;pasta_do_arquivo/radoc1.pdf&quot;</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>pdf_radoc2 <span class="ot">&lt;-</span> <span class="st">&quot;pasta_do_arquivo/radoc2.pdf&quot;</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>output_file <span class="ot">&lt;-</span> <span class="st">&quot;pasta_de_destino/nome_arquivo.xlsx&quot;</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">tabela_cad_xlsx</span>(pdf_radoc1, pdf_radoc2, output_file)</span></code></pre></div>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">tabela_cad_tex</span>(pdf_radoc1, pdf_radoc2)</span></code></pre></div>
 </div>
 </div>
 </div>

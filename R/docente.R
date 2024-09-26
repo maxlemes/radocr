@@ -1,24 +1,26 @@
 #
 # ------------------- Função INTERNA - docente  -------------------------------
 #
-#' Extrai e organiza dos dados do docente
+#' Extrai e organiza dados do docente
 #' 
 #' @description
-#' `docente` lê os dados dos RADOC e cria um dataframe com os dados do
-#' docente incluindo os afastamentos do mesmo no período.
+#' A função `docente()` lê os dados dos RADOC e cria um dataframe contendo as 
+#' informações do docente, incluindo os afastamentos no período.
 #' 
 #' @details
-#' Primeiramente `docente` lê os arquivos PDF e extrai os dados pessoais do
-#' docente, depois extrai os dados de afastamento e pos ultimo junta toda
-#' informação em um dataframe
+#' Primeiramente, a função lê os arquivos PDF e extrai os dados pessoais do 
+#' docente. Em seguida, ela extrai os dados de afastamento e, por último, junta 
+#' todas as informações em um dataframe.
 #'
-#' @param pdf_file1  arquivo PDF com os dados do 1o RADOC
-#' @param pdf_file2  arquivo PDF com os dados do 2o RADOC
+#' @param pdf_file1 Um arquivo PDF contendo os dados do 1º RADOC.
+#' @param pdf_file2 Um arquivo PDF contendo os dados do 2º RADOC.
 #'
-#' @returns um dataframe com os dados do docente
+#' @return Um dataframe com os dados do docente, incluindo informações de 
+#' afastamento.
 #'
 #' @examples
 #' \dontrun{
+#' # Exemplo de uso da função docente
 #' docente(pdf_file1, pdf_file2)
 #' }
 #' @keywords internal

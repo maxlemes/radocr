@@ -2,30 +2,35 @@
 % Please edit documentation in R/resumo.R
 \name{resumo_tex}
 \alias{resumo_tex}
-\title{Cria um resumo (em LaTeX) das atividades docentes no período}
+\title{Gera um resumo em LaTeX das atividades docentes a partir de arquivos RADOC}
 \usage{
-resumo_tex(pdf_file1, pdf_file2, output_file = NULL)
+resumo_tex(...)
 }
 \arguments{
-\item{pdf_file1}{o caminho para o arquivo contendo o 1o RADOC.}
-
-\item{pdf_file2}{o caminho para o arquivo contendo o 2o RADOC.}
-
-\item{output_file}{o caminho onde o arquivo de saída deve ser salvo.}
+\item{...}{Um ou mais caminhos para arquivos PDF contendo os RADOCs do
+docente.}
+}
+\value{
+Um arquivo \code{resumo.tex} que contém o código LaTeX do resumo das
+atividades do docente.
 }
 \description{
-Esta função lê os dados do RADOC em 2 arquivos PDF e retorna um
-arquivo LaTeX (.tex) com o resumo das atividades do docente
+A função \code{resumo_tex()} lê os dados de um ou mais arquivos PDF de RADOC e
+gera um arquivo LaTeX (.tex) contendo um resumo das atividades docentes no
+período. É útil para criar relatórios personalizados de atividades docentes.
 }
 \details{
-Em caso de ausência do argumento \code{output_file} o arquivo será salvo na
-pasta atual.
+Você pode fornecer quantos arquivos de RADOC quiser, e a função os combinará
+em um único documento LaTeX. Os arquivos devem ser gerados pelo sistema SICAD+.
 }
 \examples{
 \dontrun{
+# Caminho para os arquivos RADOC
 pdf_radoc1 <- "pasta_do_arquivo/radoc1.pdf"
 pdf_radoc2 <- "pasta_do_arquivo/radoc2.pdf"
-output_file <- "pasta_de_destino/nome_arquivo.tex"
-resumo_tex(pdf_radoc1, pdf_radoc2, output_file)
+
+# Gera o arquivo LaTeX com o resumo
+resumo_tex(pdf_radoc1, pdf_radoc2)
 }
+
 }
