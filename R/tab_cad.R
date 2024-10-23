@@ -117,9 +117,18 @@ coleta <- function(pdf_file) {
   tabela <- stringr::str_replace_all(tabela, "^\\s+|\\s+$", "")
 
   # corrigindo erros observados ----------------------------------------------
-  tabela <- gsub("IV-2.6.3", "IV-2-6.3", tabela)
 
-  # extraindo o ano do Radoc
+  # Corrigir pontos entre números romanos e o primeiro número
+  tabela <- gsub("([IV]+)\\.(\\d+)-(\\d+)", "\\1-\\2-\\3", tabela)
+
+  # Corrigir pontos entre números subsequentes
+  tabela <- gsub("([IV]+)-(\\d+)\\.?(\\d+)", "\\1-\\2-\\3", tabela )
+   
+  # Corrigir pontos entre os dois
+  tabela <- gsub("([IV]+)\\.(\\d+)\\.(\\d+)", "\\1-\\2-\\3", tabela )
+
+
+  # extraindo o ano do Radoc ----------------------------------------------
   ano <- tabela[xts::first(which(
     stringr::str_detect(tabela, "^Relat\u00f3rio do docente")
   ))]
@@ -139,9 +148,12 @@ coleta <- function(pdf_file) {
   # filtrando os itens pontuados
   itens <- which(grepl("^Item", df[[1]]))
 
+  # selecionando apenas os itens a serem pontuados
   df <- df[itens, 1:4]
 
+  # tirando os espaços em branco da coluna 2
   df[[2]] <- stringr::str_replace_all(df[[2]], "\\s", "")
+
 
   # Arrumando o dataframe
   if (nrow(df) != 0) {
