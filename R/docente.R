@@ -207,7 +207,7 @@ afastamentos <- function(pdf_file) {
 
     # considerando apenas datas no ano corrente
     for (i in ordem) {
-      if (datas_fim[i] > reveillon) {
+      if ((is.na(datas_fim[i]))|(datas_fim[i] > reveillon)) {
         datas_fim[i] <- reveillon
       }
     }
