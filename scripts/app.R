@@ -14,7 +14,7 @@ library(devtools)
 files <- list.files(path = 'data-raw/',
                     pattern = "pdf$")
 
-arquivos <- paste0('data-raw/',files[-c(1,10)])
+arquivos <- paste0('data-raw/',files[c(2,3)])
 
 # Testando os arquivos
 # filesCheck(arquivos)
@@ -24,7 +24,7 @@ pdf_file2 <- arquivos[2]
 pdf_file3 <- arquivos[8]
 
 pdf_files <- c(pdf_file1, pdf_file2)
-file <- pdf_files[1]
+pdf_file <- pdf_files[1]
 
 output_file <- NULL
 tabela_cad_tex(pdf_file1, pdf_file2)

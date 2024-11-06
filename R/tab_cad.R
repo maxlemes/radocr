@@ -200,7 +200,7 @@ coleta <- function(pdf_file) {
       tempo <- NULL
 
       for (j in 1:length(ini)) {
-        end <- ini[j] + 20
+        end <- ini[j] + 50
         df <- tabela[ini[j]:end]
 
         df <- tabtibble(df)
