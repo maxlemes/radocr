@@ -24,7 +24,7 @@ pdf_file2 <- arquivos[2]
 pdf_file3 <- arquivos[8]
 
 pdf_files <- c(pdf_file1, pdf_file2)
-pdf_file <- pdf_files[1]
+file <- pdf_files[2]
 
 output_file <- NULL
 tabela_cad_tex(pdf_file1, pdf_file2)
