@@ -286,6 +286,10 @@ coleta <- function(pdf_file) {
     df[(df[["Item"]] %in% listas[["lista_tempo"]]), ano] <-
       df[(df[["Item"]] %in% listas[["lista_tempo"]]), "Tempo"] *
         df[(df[["Item"]] %in% listas[["lista_tempo"]]), "Pontos"]
+    
+    # Aproveitando a PONTUAÇÃO Dos itens sem data (erro no SICAD+)
+    df[df[["Item"]] %in% c("V-2-11"), ano] <-
+      df[df[["Item"]] %in% c("V-2-11"), "SICAD"]    
   
     # pontuando os itens com pontuação atribuida a cada ano de atividade
     df[(df[["Item"]] %in% listas[["lista_anual"]]), ano] <-
