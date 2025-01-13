@@ -45,7 +45,7 @@ docente <- function(...) {
 
     # Juntando os afastamentos aos dados do docente
     if (afast[["Total"]][1] != 0) {
-      aux <- afast[1:2, c(1, ncol(afast))]
+      aux <- afast[1:3, c(1, ncol(afast))]
       colnames(aux) <- colnames(doc)
       doc <- rbind(doc, aux)
     } else {
@@ -57,7 +57,7 @@ docente <- function(...) {
     }
   } else {
     if (afast[[2]][2] != 0){
-      aux <- afast[1:2, ]
+      aux <- afast[1:3, ]
       colnames(aux) <- colnames(doc)
       doc <- rbind(doc, aux)
     } else {
@@ -249,18 +249,18 @@ afastamentos <- function(pdf_file) {
 
     # organizando a saida
     df <- df[1:3, 1:2]
-    df[2, 1] <- "Dias afastado"
-    df[3, 1] <- "Meses afastado"
+    df[2, 1] <- "Dias de afastamento"
+    df[3, 1] <- "Semanas de afastamento"
     df[, 2] <- as.numeric(NA)
     df[1, 2] <- n
     df[2, 2] <- total_dias
-    df[3, 2] <- floor(total_dias / 30)
+    df[3, 2] <- floor(total_dias / 7)
   } else {
     df <- tibble::tibble(
       "a" = c(
         "Afastamentos",
-        "Dias afastado",
-        "Meses afastado"
+        "Dias de afastamento",
+        "Semanas de afastamento"
       ),
       "b" = c(0, 0, 0)
     )

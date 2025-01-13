@@ -35,6 +35,9 @@ tabela_cad_tex <- function(...) {
   # pegando os dados do docente ------------------------------------------------
   doc <- docente(pdf_files)
 
+  # arrumado o underline no e-mail
+  doc[[2]][2] <- gsub("_", '$\\\\_$', doc[[2]][2])
+
   # transforma em uma tabela de latex
   df <- xtable::xtable(doc)
 

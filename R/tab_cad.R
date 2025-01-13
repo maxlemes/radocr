@@ -290,6 +290,10 @@ coleta <- function(pdf_file) {
     # Aproveitando a PONTUAÇÃO Dos itens sem data (erro no SICAD+)
     df[df[["Item"]] %in% c("V-2-11"), ano] <-
       df[df[["Item"]] %in% c("V-2-11"), "SICAD"]    
+
+    # Aproveitando a PONTUAÇÃO do SICAD+
+    df[df[["Item"]] %in% c("V-3-1",  "V-3-2",  "V-3-3"), ano] <-
+      df[df[["Item"]] %in% c("V-3-1",  "V-3-2",  "V-3-3"), "SICAD"]  
   
     # pontuando os itens com pontuação atribuida a cada ano de atividade
     df[(df[["Item"]] %in% listas[["lista_anual"]]), ano] <-
