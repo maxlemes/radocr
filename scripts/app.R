@@ -14,7 +14,7 @@ library(devtools)
 files <- list.files(path = 'data-raw/',
                     pattern = "pdf$")
 
-arquivos <- paste0('data-raw/',files[c(2,3)])
+arquivos <- paste0('data-raw/',files[c(9,10)])
 
 # Testando os arquivos
 # filesCheck(arquivos)
@@ -37,7 +37,7 @@ tinytex::latexmk("resumo.tex")
 
 resumo_xlsx(pdf_file1, pdf_file2)
 
-pdf_files <- c(pdf_file1, pdf_file2, pdf_file1)
+# pdf_files <- c(pdf_file1, pdf_file2, pdf_file1)
 docente(pdf_files)
 afastamentos(pdf_file2)
 afastamentos(arquivos[7])

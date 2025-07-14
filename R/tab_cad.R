@@ -31,7 +31,6 @@ tab_cad <- function(...) {
   doc <- dados_docente(pdf_files[1])
   n <- ifelse(doc[[2]][6] == "20 Horas", 20, 40)
 
-
   # capturando a tabela vazia
   cad <- orig_cad
 

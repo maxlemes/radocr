@@ -100,13 +100,23 @@ dados_docente <- function(pdf_file) {
   df <- tabtibble(df)
 
   # as vezes o nome da lotação passa para outra linha
-  if (is.na(df[[2]][8])) {
-    df[[4]][7] <- paste(df[[4]][7], df[[1]][8])
-    df[[4]][9] <- df[[4]][7]
-    df <- df[-8, ]
+  if (length(df)==8){
+    if (is.na(df[[2]][8])) {
+      df[[4]][7] <- paste(df[[4]][7], df[[1]][8])
+      df[[4]][9] <- df[[4]][7]
+      df <- df[-8, ]
+    }
   }
 
-  df <- df[-3, ]
+  print(df)
+
+  for (i in 1:length(df)){
+    if (df[[i]][[1]]=='Dados Funcionais'){
+      df <- df[i, ]
+    }
+  }
+  print(df)
+
 
   # ajustes
   df[[1]][1] <- "Docente"

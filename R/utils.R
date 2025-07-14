@@ -151,7 +151,7 @@ to_title_case_pt_br <- function(texto) {#---  to_title_case_pt_br  -------------
 #' # Exemplo com dois arquivos RADOC
 #' filesCheck("radoc1.pdf", "radoc2.pdf")
 #' }
-filesCheck <- function(...) {#---  filesCheck  ----------------
+filesCheckOLD <- function(...) {#---  filesCheck  ----------------
 
   files <- c(...)
 
@@ -164,7 +164,7 @@ filesCheck <- function(...) {#---  filesCheck  ----------------
     tabela <- stringr::str_replace_all(tabela, "^\\s+|\\s+$", "")
 
     if (!grepl("^Sistema de Consulta das Atividades Docente", tabela[1])) {
-      stop(paste(
+      warning()(paste(
         "O arquivo", files[i],
         "n\u00e3o parece ser um RADOC gerado pelo SICAD+."
       ))
@@ -178,7 +178,7 @@ filesCheck <- function(...) {#---  filesCheck  ----------------
 
     if (i > 1) {
       if (aux[i] != aux[i - 1]) {
-        stop("Os RADOCs n\\u00e3o s\\u00e3o do mesmo docente.")
+        warning("Os RADOCs n\\u00e3o s\\u00e3o do mesmo docente.")
       }
     }
 
@@ -196,9 +196,89 @@ filesCheck <- function(...) {#---  filesCheck  ----------------
 
     if (i > 1) {
       if (ano[i] == ano[i - 1]) {
-        stop("Existem RADOCs repetidos (do mesmo ano).")
+        warning("Existem RADOCs repetidos (do mesmo ano).")
       }
     }
+  }
+
+  return("Tudo certo.")
+}
+filesCheck <- function(...) {#---  filesCheck  ----------------
+
+  files <- c(...)
+  aux <- character()
+  ano <- numeric()
+  verificar_docente <- TRUE
+
+  for (i in seq_along(files)) {
+    tabela <- readr::read_lines(pdftools::pdf_text(files[i]))
+    tabela <- stringr::str_replace_all(tabela, "^\\s+|\\s+$", "")
+
+    if (!grepl("^Sistema de Consulta das Atividades Docente", tabela[1])) {
+      stop(paste(
+        "O arquivo", files[i],
+        "n\u00e3o parece ser um RADOC gerado pelo SICAD+."
+      ))
+    }
+
+    # Tenta localizar a linha com SIAPE:
+    siape_linha <- xts::first(which(stringr::str_detect(tabela, "^SIAPE:")))
+
+    if (length(siape_linha) == 0 || is.na(siape_linha)) {
+      verificar_docente <- FALSE
+      warning(paste("N\u00e3o foi poss\u00edvel verificar o docente no arquivo:", files[i]))
+      aux[i] <- NA
+    } else {
+      extraido <- stringr::str_extract(
+        tabela[siape_linha],
+        "(^.*[A-Z]?[^\\s](?=\\s\\s))"
+      )
+
+      if (is.na(extraido)) {
+        verificar_docente <- FALSE
+        warning(paste("N\u00e3o foi poss\u00edvel extrair o nome do docente no arquivo:", files[i]))
+        aux[i] <- NA
+      } else {
+        aux[i] <- extraido
+        if (i > 1 && aux[i] != aux[i - 1]) {
+          stop("Os RADOCs n\u00e3o s\u00e3o do mesmo docente.")
+        }
+      }
+    }
+
+    # Verifica o ano:
+    linha_ano <- xts::first(
+      which(stringr::str_detect(tabela, "^Relat\u00f3rio do docente"))
+    )
+
+    if (is.na(linha_ano)) {
+      stop(paste("N\u00e3o foi poss\u00edvel localizar a linha com o ano no arquivo:", files[i]))
+    }
+
+    trecho <- stringr::str_extract(
+      tabela[linha_ano],
+      "(?<=\\()([^()]*?)(?=\\)[^()]*$)"
+    )
+
+    if (is.na(trecho)) {
+      stop(paste("N\u00e3o foi poss\u00edvel extrair o ano no arquivo:", files[i]))
+    }
+
+    ano_extraido <- as.numeric(stringr::str_sub(trecho, start = 5))
+
+    if (is.na(ano_extraido)) {
+      stop(paste("Ano inv\u00e1lido no arquivo:", files[i]))
+    }
+
+    ano[i] <- ano_extraido
+
+    if (i > 1 && ano[i] == ano[i - 1]) {
+      stop("Existem RADOCs repetidos (do mesmo ano).")
+    }
+  }
+
+  if (!verificar_docente) {
+    message("Aviso: N\u00e3o foi poss\u00edvel verificar se os RADOCs s\u00e3o do mesmo docente.")
   }
 
   return("Tudo certo.")
